@@ -1,0 +1,24 @@
+# Fig10d.dat
+# Data for ANSI Z136.1 Figure 10d
+# Photochemical MPE for 400 to 450 nm
+1.9e+00   2.546e-02
+5.2e+02   9.503e-05
+3.0e+04   9.503e-05
+
+
+# Photochemical MPE for 475 nm
+8.9e+00   1.734e-02
+5.2e+02   3.005e-04
+3.0e+04   3.005e-04
+
+
+# Photochemical MPE for 500 nm
+3.3e+01   1.471e-02
+5.2e+02   9.503e-04
+3.0e+04   9.503e-04
+
+
+# Photochemical MPE for 532 nm
+1.5e+02   1.471e-02
+5.2e+02   4.148e-03
+3.0e+04   4.148e-03
