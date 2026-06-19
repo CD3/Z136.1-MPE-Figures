@@ -15,36 +15,65 @@
 #
 # 
 
+GNUPLOT=$(which gnuplot)
+PYTHON=$(which python || which python3)
+EXTENSIONS="${*}"
+if [ -z "${EXTENSIONS}" ]
+then
+  EXTENSIONS="png ps"
+fi
+
+printf "Generating Z136.1 Figures\n\n"
+printf "   Gnuplot: %b\n" "$GNUPLOT"
+printf "    Python: %b\n" "$PYTHON"
+printf "Extensions: %b\n" "$EXTENSIONS"
+printf "\n"
+
+
 
 function make_gnuplot_term_command_for_extension
 {
   local EXT=$1
   if [ "$1" = "png" ]
   then
-    # FIXME: need to get Helvetica font working....
-    # and size
-    # echo "set term png linewidth 1 dashlength 1 size 640,480" # font 'arial,20.0'"
-    echo "set term png"
+    # need to convert size in inches to pixels
+    SIZE=$(echo ${SIZE} | sed "s/in//g" | gawk -F, '{print 96*$1","96*$2}' | sed "s/ /,/" )
+    echo "set term png linewidth 1 dashlength 1 size ${SIZE} font '${FONT},${FONTSIZE}'"
+  fi
+  if [ "$1" = "ps" ]
+  then
+    echo "set term postscript linewidth 2 dashlength 2 size ${SIZE} font '${FONT},${FONTSIZE}'"
+  fi
+  if [ "$1" = "eps" ]
+  then
+    echo "set term postscript eps color linewidth 2 dashlength 2 size ${SIZE} font '${FONT},${FONTSIZE}'"
+  fi
+  if [ "$1" = "pdf" ]
+  then
+    echo "set term pdfcairo color linewidth 1 dashlength 1 size ${SIZE} font '${FONT},${FONTSIZE}'"
   fi
 }
 
+HERE=$PWD
 mkdir -p build
 for FILE in */*/*.plt
 do
+  printf "\n\nGnuplot file: %b" "${FILE}"
   cd $(dirname ${FILE})
   INPUT=$(basename ${FILE})
-  for EXT in png
+  for EXT in ${EXTENSIONS}
   do
-    OUTPUT="../../build/${EXT}/${INPUT/%plt/${EXT}}"
+    OUTPUT="../../build/${EXT}/${INPUT/%[_.]*/.${EXT}}"
     mkdir -p $(dirname ${OUTPUT})
     printf "${INPUT} -> ${OUTPUT}\n"
+    source env.sh
+    "${PYTHON}" make-data.py
     gnuplot \
       -e "set output '${OUTPUT}'" \
       -e "$(make_gnuplot_term_command_for_extension ${EXT})" \
       $(basename ${FILE})
-
-    cd - > /dev/null
   done
+  cd "${HERE}"
 done
 
 printf "Done generating figures. All image files are in build/\n"
