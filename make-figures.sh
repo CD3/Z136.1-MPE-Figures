@@ -56,7 +56,7 @@ function make_gnuplot_term_command_for_extension
 
 HERE=$PWD
 mkdir -p build
-for FILE in */*/*.plt
+for FILE in */*/*.gnuplot
 do
   printf "\n\nGnuplot file: %b" "${FILE}"
   cd $(dirname ${FILE})
