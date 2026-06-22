@@ -34,8 +34,8 @@ set label 4 '1315 nm' at first 4e-7, first 0.002 center front
 set label 5 '1400 nm' at first 4e-7, first 0.18 center front
 set label 6 '1390 nm' at first 4e-7, first 0.8 center front
 
-plot 'figure4.dat' index 0:4 notitle with lines linestyle 1, \
-     'figure4.dat' index 5 notitle with lines linestyle 5
+plot 'data.txt' index 0:4 notitle with lines linestyle 1, \
+     'data.txt' index 5 notitle with lines linestyle 5
 
 unset label 1
 unset label 2

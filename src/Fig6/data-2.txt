@@ -1,0 +1,8 @@
+# UV and MPE data for Figure 6
+# Exposure Duration (s)   MPE (J/cm^2)
+#
+# 315 to 400 nm
+1.0e-13         3.0e-4
+1.0e-11         3.0e-4
+10.0            1.0
+3.0e+4          1.0

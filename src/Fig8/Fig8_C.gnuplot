@@ -30,7 +30,7 @@ set ylabel '{/=12 C_A}'
 set format y '{%.0f}'
 set format x '{%.0f}'
 
-plot 'C_factor.dat' index 0 notitle with lines linestyle 1
+plot 'data.txt' index 0 notitle with lines linestyle 1
 
 # Cb
 set xrange [400:600]
@@ -44,7 +44,7 @@ set ylabel '{/=12 C_B}'
 set format y '10^{%L}'
 set format x '{%.0f}'
 
-plot 'C_factor.dat' index 1 notitle with lines linestyle 1
+plot 'data.txt' index 1 notitle with lines linestyle 1
 
 set xrange [1050:1400]
 set yrange [0.44:2.2e+6]
@@ -55,6 +55,6 @@ set ylabel '{/=12 C_C}'
 
 set format x '{%.0f}'
 
-plot 'C_factor.dat' index 2 notitle with lines linestyle 1
+plot 'data.txt' index 2 notitle with lines linestyle 1
 
 unset multiplot

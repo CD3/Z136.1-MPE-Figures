@@ -1,0 +1,11 @@
+import pathlib
+
+pathlib.Path("data.txt").write_text(
+    """# Cone limiting angle for photochemical MPEs
+# t(s)      gamma (mrad)
+0.7         11.0
+100.0       11.0
+10000.0     110.0
+30000.0     110.0
+"""
+)

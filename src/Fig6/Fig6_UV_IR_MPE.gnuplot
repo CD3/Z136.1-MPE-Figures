@@ -38,11 +38,11 @@ set label 7 '1400 - 1500 nm' at first 2e-9, first 0.5
 
 #plot 'Fig6_IR_MPE_Data.dat' notitle with lines linestyle 1, \
 #     'Fig6_UV_MPE_Data.dat' notitle with lines linestyle 2
-plot 'Fig6_IR_MPE_Data.dat' index 0 notitle with lines linestyle 5, \
+plot 'data-1.txt' index 0 notitle with lines linestyle 5, \
      '' index 1 notitle with lines linestyle 1, \
      '' index 2 notitle with lines linestyle 1, \
      '' index 3 notitle with lines linestyle 1, \
-     'Fig6_UV_MPE_Data.dat' notitle with lines linestyle 2
+     'data-2.txt' notitle with lines linestyle 2
 
 unset label 1
 unset label 2

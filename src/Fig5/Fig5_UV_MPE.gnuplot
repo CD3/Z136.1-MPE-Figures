@@ -29,14 +29,4 @@ set ylabel 'Radiant Exposure (J/cm^2)'
 set format x '{%.0f}'
 set format y '10^{%L}'
 
-plot '-' notitle with lines linestyle 1
-# Ultriviolet Photochemical MPE
-# # Wavelenght      MP (J/cm^2)
-180                 1.31
-260                 3.0e-3
-302.5               3.0e-3
-302.5               3.2e-3
-315                 1.0
-400                 1.0
-e
-
+plot 'data.txt' notitle with lines linestyle 1

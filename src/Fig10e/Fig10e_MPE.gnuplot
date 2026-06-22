@@ -45,10 +45,10 @@ set arrow 10 from first 0.36, first 21.0 to first 0.2, first 3.1 linestyle 1
 #plot 'Fig10e_therm.dat' notitle with lines linestyle 1, \
 #     'Fig10e_photo.dat' notitle with lines linestyle 2
 
-plot 'Fig10e_therm.dat' index 0:1 notitle with lines linestyle 1, \
-     'Fig10e_therm.dat' index 2 notitle with lines linestyle 5, \
-     'Fig10e_therm.dat' index 3:4 notitle with lines linestyle 1, \
-     'Fig10e_photo.dat' notitle with lines linestyle 2
+plot 'data-therm.txt' index 0:1 notitle with lines linestyle 1, \
+     'data-therm.txt' index 2 notitle with lines linestyle 5, \
+     'data-therm.txt' index 3:4 notitle with lines linestyle 1, \
+     'data-photo.txt' notitle with lines linestyle 2
 
 unset label 1
 unset label 2

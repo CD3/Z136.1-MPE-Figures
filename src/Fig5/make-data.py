@@ -1,0 +1,13 @@
+import pathlib
+
+pathlib.Path("data.txt").write_text(
+    """# Ultriviolet Photochemical MPE
+# # Wavelenght      MP (J/cm^2)
+180                 1.31
+260                 3.0e-3
+302.5               3.0e-3
+302.5               3.2e-3
+315                 1.0
+400                 1.0
+"""
+)

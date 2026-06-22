@@ -1,0 +1,7 @@
+
+# C_g for photochemical MPEs
+# alpha = 75 mrad
+# gamma (mrad)    C_g
+11.0              46.49
+75.0              1.0
+110.0             1.0

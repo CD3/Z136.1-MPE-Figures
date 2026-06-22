@@ -25,11 +25,7 @@ set ylabel 'K_{/Symbol l}'
 set format x '{/=16 {%.0f}}'
 set format y '{/=16 10^{%L}}'
 
-plot '-' notitle with lines linestyle 1
-# Wavelength (nm)    Klambda
-1200.0               100.0
-1400.0                 1.0
-e
+plot 'data.txt' notitle with lines linestyle 1
 
 reset
 

@@ -25,12 +25,5 @@ set ylabel 'Limiting Cone Angel {/Symbol g} (mrad)'
 set format x '10^{%L}'
 set format y '10^{%L}'
 
-plot '-' notitle with lines linestyle 1
-# Cone limiting angle for photochemical MPEs
-# t(s)      gamma (mrad)
-0.7         11.0
-100.0       11.0
-10000.0     110.0
-30000.0     110.0
-e
+plot 'data.txt' notitle with lines linestyle 1
 

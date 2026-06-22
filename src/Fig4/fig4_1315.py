@@ -3,8 +3,9 @@
 
 wavelen = 1315.0
 
-cc = 8.0 + 10.0**(0.04*(wavelen-1250.0))
-klambda = 10.0**(0.01 * (1400.0 - wavelen))
+cc = 8.0 + 10.0 ** (0.04 * (wavelen - 1250.0))
+klambda = 10.0 ** (0.01 * (1400.0 - wavelen))
+
 
 def mpe1315(t):
     if t < 1.0e-11:
@@ -30,16 +31,16 @@ def mpe1315(t):
     mcorn = 0.3 * klambda + 0.1 * t - 0.3
     return min(mret, mcorn)
 
+
 # set up pulse durations for MPE calculations
-tau = [ 1.0e-13, 9.9999e-12 ]
+tau = [1.0e-13, 9.9999e-12]
 for i in range(-11, 1):
-    for j in range(1,10):
+    for j in range(1, 10):
         t = j * 10.0**i
         tau.append(t)
 
 # Calculate and output the MPE values
-fmtstr = '%.1e   %.3e'
+fmtstr = "%.1e   %.3e"
 for t in tau:
     mpe = mpe1315(t)
     print(fmtstr % (t, mpe))
-

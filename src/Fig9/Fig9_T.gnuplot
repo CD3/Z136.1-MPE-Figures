@@ -25,7 +25,7 @@ set ylabel 'T_1 (s)'
 set format x '{%.0f}'
 set format y '{%.0f}'
 
-plot 'T12.dat' index 0 notitle with lines linestyle 1
+plot 'data.txt' index 0 notitle with lines linestyle 1
 
 # T2
 set xrange [0:110]
@@ -37,7 +37,7 @@ set ytics 0, 10
 set xlabel 'Source Angular Subtense {/Symbol a} (mrad)'
 set ylabel 'T_2 (s)'
 
-plot 'T12.dat' index 1 notitle with lines linestyle 1
+plot 'data.txt' index 1 notitle with lines linestyle 1
 
 unset multiplot
 

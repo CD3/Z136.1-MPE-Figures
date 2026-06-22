@@ -44,8 +44,8 @@ set label 10 '1400 nm' at first 0.3, first 4.5e+3 center front
 set arrow 10 from first 0.3, first 3.0e+3 to first 0.2, first 440.0 \
     linestyle 1
 
-plot 'therm.dat' index 0:2 notitle with lines linestyle 1, \
-     'cornea.dat' index 0:1 notitle with lines linestyle 5, \
-     'photo.dat' index 0:4 notitle with lines linestyle 2
+plot 'data-therm.txt' index 0:2 notitle with lines linestyle 1, \
+     'data-cornea.txt' index 0:1 notitle with lines linestyle 5, \
+     'data-photo.txt' index 0:4 notitle with lines linestyle 2
 
 

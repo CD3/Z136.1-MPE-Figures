@@ -41,10 +41,10 @@ set label 9 '1400 nm' at first 0.23, first 1.0 center front
 #plot 'Fig10d_therm.dat' notitle with lines linestyle 1, \
 #     'Fig10d_photo.dat' notitle with lines linestyle 2
 
-plot 'Fig10d_therm.dat' index 0:1 notitle with lines linestyle 1, \
-     'Fig10d_therm.dat' index 2 notitle with lines linestyle 5, \
-     'Fig10d_therm.dat' index 3:4 notitle with lines linestyle 1, \
-     'Fig10d_photo.dat' notitle with lines linestyle 2
+plot 'data-therm.txt' index 0:1 notitle with lines linestyle 1, \
+     'data-therm.txt' index 2 notitle with lines linestyle 5, \
+     'data-therm.txt' index 3:4 notitle with lines linestyle 1, \
+     'data-photo.txt' notitle with lines linestyle 2
 
 unset label 1
 unset label 2

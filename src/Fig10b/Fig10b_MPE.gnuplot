@@ -36,8 +36,8 @@ set label 6 '1064 nm' at first 1000.0, first 1.6e-2 center front
 set label 7 '1315 nm' at first 14.0, first 0.6 center front
 set label 8 '1400 nm' at first 0.9, first 0.4 center front
 
-plot 'Fig10b_therm.dat' notitle with lines linestyle 1, \
-     'Fig10b_photo.dat' notitle with lines linestyle 2
+plot 'data-therm.txt' notitle with lines linestyle 1, \
+     'data-photo.txt' notitle with lines linestyle 2
 
 unset label 1
 unset label 2

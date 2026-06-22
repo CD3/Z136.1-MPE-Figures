@@ -34,23 +34,9 @@ set label 3 '{/Symbol a}_{max} < {/Symbol a} {/Symbol \243} 100 mrad' \
              at first 3.0e4, first 0.18 center
 
 # plot fcp(x) = x**-0.25, fcp(x) notitle with lines linestyle 1
-plot '-' notitle with lines linestyle 1, \
-     '-' notitle with lines linestyle 1, \
-     '-' notitle with lines linestyle 1
-# alpha < 5 mrad
-1.0   1.0
-1.0e+6 1.0 
-e
-# 5 mrad < alpha < alpha_max
-1.0   1.0
-40.0  0.4
-1.0e+6 0.4
-e
-# alpha > alpha_max
-1.0   1.0
-625.0  0.2
-1.0e+6 0.2
-e
+plot 'data-1.txt' notitle with lines linestyle 1, \
+     'data-2.txt' notitle with lines linestyle 1, \
+     'data-3.txt' notitle with lines linestyle 1
 
 unset label 1
 unset label 2

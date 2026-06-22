@@ -31,7 +31,7 @@ set label 2 '{/Symbol a} = 7.5 mrad' at first 3e-8, first 3.0e-6 center
 set label 3 '{/Symbol a} = 25 mrad' at first 3e-8, first 3.0e-5 center
 set label 4 '{/Symbol a} = 100 mrad' at first 3e-8, first 5.0e-4 center
 
-plot 'figure7.dat' notitle with lines linestyle 1
+plot 'data.txt' notitle with lines linestyle 1
 
 
 unset label 1
