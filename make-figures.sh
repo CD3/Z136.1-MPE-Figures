@@ -66,7 +66,7 @@ do
   INPUT=$(basename ${FILE})
   for EXT in ${EXTENSIONS}
   do
-    OUTPUT="../../build/${EXT}/${INPUT/%[_.]*/.${EXT}}"
+    OUTPUT="../../build/${EXT}/${INPUT/%.gnuplot/.${EXT}}"
     mkdir -p $(dirname ${OUTPUT})
     printf "${INPUT} -> ${OUTPUT}\n"
     source env.sh
