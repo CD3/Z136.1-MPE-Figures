@@ -1,12 +1,14 @@
 set -u
 rm -rf build*
 
-printf "Running Lund makefile(s) with ps target\n"
-make TARGET=ps > /dev/null 2>&1
-printf "Running Lund makefile(s) with pdf target\n"
-make TARGET=pdf > /dev/null 2>&1
-mv build build-goldenimage
-mv build-goldenimage/{ps,eps}
+GOLDEN_SNAPSHOT=${1:-"snapshots/2023-11-28/"}
+
+if [ ! -d "${GOLDEN_SNAPSHOT}" ]
+then
+  printf "Golden snapshot directory '${GOLDEN_SNAPSHOT}' does not exist.\n"
+  printf "This should be a directory containing EPS and PDF images of the figures to compare the output of the current scripts to.\n"
+  exit 1
+fi
 
 printf "Running new bash script with eps and pdf arguments\n"
 bash make-figures.sh eps pdf > /dev/null 2>&1
@@ -17,7 +19,7 @@ sed -i "/%%CreationDate/d;/%%Title/d;/\/CreationDate/d;/\/Title/d" build*/eps/*
 
 
 printf "Running diff on two build directories\n"
-diff -r build/eps build-goldenimage/eps && printf "EPS Images are IDENTICAL!\n"
+diff -r build/eps "${GOLDEN_SNAPSHOT}/eps" && printf "EPS Images are IDENTICAL!\n"
 
 DIFFPDF=$(which diff-pdf || which comparepdf || which diffpdf || echo "")
 if [ -z "${DIFFPDF}" ]
@@ -37,12 +39,12 @@ fi
 
 DIFFERENCES=""
 IFS=$'\n\t'
-for LINE in $(diff -r build/pdf build-goldenimage/pdf)
+for LINE in $(diff -r build/pdf "${GOLDEN_SNAPSHOT}/pdf")
 do
   # Binary files are different. Use a PDF diffing tool to make sure.
   FILE=$(echo ${LINE} | sed "s|Binary files.*pdf/||;s| .*||")
 
-  "${DIFFPDF}" ${DIFFPDF_OPTS} build/pdf/${FILE} build-goldenimage/pdf/${FILE}
+  "${DIFFPDF}" ${DIFFPDF_OPTS} build/pdf/${FILE} "${GOLDEN_SNAPSHOT}/pdf/${FILE}"
   if [ "$?" -ne 0 ]
   then
     DIFFERENCES="${DIFFERENCES}\n${LINE}"
