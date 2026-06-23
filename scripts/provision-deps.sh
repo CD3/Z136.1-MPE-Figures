@@ -2,13 +2,11 @@
 
 # Install missing dependencies for the figure build script.
 
-set -u -e
-
 # check for the tools we need
-GNUPLOT=$(which gnuplot)
-PYTHON=$(which python || which python3)
-AWK=$(which gawk || which awk)
-SED=$(which sed)
+GNUPLOT=$(which gnuplot || echo "")
+PYTHON=$(which python || which python3 || echo "")
+AWK=$(which gawk || which awk || echo "")
+SED=$(which sed || echo "")
 
 if [ -z "${GNUPLOT}" ]
 then

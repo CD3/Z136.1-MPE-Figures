@@ -14,7 +14,7 @@
 # make changes for the 2027 version of the standard.
 #
 
-set -u -e
+set -e -u
 
 # setup tools we need
 source scripts/provision-deps.sh
