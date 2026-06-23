@@ -13,10 +13,13 @@
 # CD Clark III received the scripts in 2024 to
 # make changes for the 2027 version of the standard.
 #
-# 
 
-GNUPLOT=$(which gnuplot)
-PYTHON=$(which python || which python3)
+set -u -e
+
+# setup tools we need
+source scripts/provision-deps.sh
+
+
 EXTENSIONS="${*}"
 if [ -z "${EXTENSIONS}" ]
 then
@@ -37,7 +40,7 @@ function make_gnuplot_term_command_for_extension
   if [ "$1" = "png" ]
   then
     # need to convert size in inches to pixels
-    SIZE=$(echo ${SIZE} | sed "s/in//g" | gawk -F, '{print 96*$1","96*$2}' | sed "s/ /,/" )
+    SIZE=$(echo ${SIZE} | "${SED}" "s/in//g" | "${AWK}" -F, '{print 96*$1","96*$2}' | "${SED}" "s/ /,/" )
     echo "set term png linewidth 1 dashlength 1 size ${SIZE} font '${FONT},${FONTSIZE}'"
   fi
   if [ "$1" = "ps" ]
