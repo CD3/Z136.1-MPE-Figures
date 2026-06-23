@@ -12,7 +12,7 @@ printf "Running new bash script with eps and pdf arguments\n"
 bash make-figures.sh eps pdf > /dev/null 2>&1
 
 
-printf "Removing creation date and title lines from post script files."
+printf "Removing creation date and title lines from post script files.\n"
 sed -i "/%%CreationDate/d;/%%Title/d;/\/CreationDate/d;/\/Title/d" build*/eps/*
 
 
@@ -22,7 +22,7 @@ diff -r build/eps build-goldenimage/eps && printf "EPS Images are IDENTICAL!\n"
 DIFFPDF=$(which diff-pdf || which comparepdf || which diffpdf || echo "")
 if [ -z "${DIFFPDF}" ]
 then
-  printf "Can't diff PDF files, could not find 'pdf-diff' or 'diffpdf'. You can install it with 'apt install diff-pdf-wx' or 'apt install diffpdf'."
+  printf "Can't diff PDF files, could not find 'diff-pdf' or 'diffpdf'. You can install it with 'apt install diff-pdf-wx' or 'apt install diffpdf'.\n"
   exit 1
 fi
 DIFFPDF_OPTS=""
@@ -51,7 +51,7 @@ done
 if [ -n "${DIFFERENCES}" ]
 then
   printf "${DIFFERENCES}\n"
-  printf "You can use 'diffpdf -a file1.pdf file2.pdf' or 'diff-pdf --view file1.pdf file2.pdf' to see the differences."
+  printf "You can use 'diffpdf -a file1.pdf file2.pdf' or 'diff-pdf --view file1.pdf file2.pdf' to see the differences.\n"
 else
   printf "PDF Images are IDENTICAL! (or at least appear to be)\n"
 fi
