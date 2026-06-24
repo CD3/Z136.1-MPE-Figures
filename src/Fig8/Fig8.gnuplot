@@ -16,10 +16,14 @@ set yrange [0.9:11.0]
 set logscale y
 unset logscale x
 
-set mytics 10 
 set mxtics 5
 set xtics 400, 100
-set ytics 1,10
+# can't get gnuplot to produce the tics correctly on this,
+# so we are manuualy adding the. the `set ytics` command
+# can take a tuple where each element contains a tic value and level.
+# 1 0 means tic at 1 with level 0 (major)
+# 1 1 means tic at 1 with level 1 (minor)
+set ytics ( 1 0, 10 0, 2 1, 3 1, 4 1, 5 1, 6 1, 7 1, 8 1, 9 1)
 set grid xtics ytics
 set grid mxtics mytics
 set grid linestyle 2, linestyle 3
