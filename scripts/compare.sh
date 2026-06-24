@@ -1,7 +1,7 @@
 set -u
 rm -rf build*
 
-GOLDEN_SNAPSHOT=${1:-"snapshots/2023-11-28/"}
+GOLDEN_SNAPSHOT=${1:-"snapshots/2026-06-23-1/"}
 
 if [ ! -d "${GOLDEN_SNAPSHOT}" ]
 then
