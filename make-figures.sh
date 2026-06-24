@@ -19,6 +19,31 @@ set -e -u
 # setup tools we need
 source scripts/provision-deps.sh
 
+function usage {
+  printf "Usage: $0 [-h] [-g path/to/gnuplot] [extension1 [extention2 [...]]]\n"
+}
+
+while getopts "g:h" opt
+do
+  case "${opt}" in
+    g)
+      GNUPLOT=$(readlink -f "${OPTARG}")
+      ;;
+    h)
+      usage
+      exit 0
+      ;;
+    \?)
+      usage
+      exit 1
+      ;;
+
+
+  esac
+done
+shift $((OPTIND-1))
+
+
 
 EXTENSIONS="${*}"
 if [ -z "${EXTENSIONS}" ]
@@ -71,7 +96,7 @@ do
     printf "${INPUT} -> ${OUTPUT}\n"
     source env.sh
     "${PYTHON}" make-data.py
-    gnuplot \
+    "${GNUPLOT}" \
       -e "set output '${OUTPUT}'" \
       -e "$(make_gnuplot_term_command_for_extension ${EXT})" \
       $(basename ${FILE})
