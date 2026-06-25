@@ -82,7 +82,7 @@ printf "  Golden Snapshot: %b\n" "${GOLDEN_SNAPSHOT}"
 printf "     New Snapshot: %b\n" "${NEW_SNAPSHOT}"
 diff -r "${NEW_SNAPSHOT}/eps" "${GOLDEN_SNAPSHOT}/eps" && printf "EPS Images are IDENTICAL!\n"
 
-DIFFPDF=$(which comparepdf || which diffpdf || echo "")
+DIFFPDF=$(which comparepdf || which diff-pdf || echo "")
 if [ -z "${DIFFPDF}" ]
 then
   printf "Can't diff PDF files, could not find 'diff-pdf' or 'diffpdf'. You can install it with 'apt install diff-pdf-wx' or 'apt install diffpdf'.\n"
@@ -114,7 +114,7 @@ then
 
   if [ "${VIEW_PDF_DIFFS}" -ne 0 ]
   then
-    GRAPHIC_DIFFPDF=$(which diff-pdf || which diffpdf || echo "")
+    GRAPHIC_DIFFPDF=$(which diffpdf || which diff-pdf || echo "")
     DIFFPDF_OPTS=""
     if [ $(basename ${DIFFPDF}) = "diffpdf" ]
     then
