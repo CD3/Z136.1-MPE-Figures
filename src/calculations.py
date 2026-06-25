@@ -28,9 +28,9 @@ def T_1(l):
 
 
 def T_2(a):
-    if a < D("1.5"):
+    if a <= D("1.5"):
         return D("10")
-    if a < D("100"):
+    if a <= D("100"):
         return D("10") * 10 ** ((a - D("1.5")) / D("98.5"))
 
     return D("100")
@@ -39,18 +39,29 @@ def T_2(a):
 # CORRECTION FACTORS
 
 
-def C_C(wavelength):
-    if wavelength < 1150:
-        result = 1.0
-    elif wavelength < 1200:
-        exponent = 0.018 * (wavelength - 1150.0)
-        result = 10**exponent
-    elif wavelength < 1400.0:
-        exponent = 0.04 * (wavelength - 1250)
-        result = 8.0 + 10.0**exponent
-    else:
-        result = 1
-    return result
+def C_A(l):
+    if l <= D("700"):
+        return 1
+    if l <= D("1050"):
+        return 10 ** (D("0.002") * (l - D("700")))
+
+    return D("5")
+
+
+def C_B(l):
+    if l <= D("450"):
+        return D("1")
+
+    return 10 ** (D("0.02") * (l - D("450")))
+
+
+def C_C(l):
+    if l <= D("1150"):
+        return D("1")
+    if l <= D("1200"):
+        return 10 ** (D("0.018") * (l - D("1150.0")))
+
+    return D("8.0") + 10 ** (D("0.04") * (l - D("1250")))
 
 
 def C_E(alpha, t):
