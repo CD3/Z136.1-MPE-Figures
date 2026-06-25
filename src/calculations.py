@@ -1,0 +1,190 @@
+import math
+
+#
+# Functions for calculating various parameter, correction factors, and MPEs.
+# Adapted by CD Clark III from scripts originally written by Brian Lund.
+#
+
+# PARAMETERS
+
+alpha_min = 1.5
+
+
+def alpha_max(t):
+    if t < 6.25e-4:
+        result = 5.0
+    elif t < 0.25:
+        result = 200.0 * math.sqrt(t)
+    else:
+        result = 100.0
+    return result
+
+
+# CORRECTION FACTORS
+
+
+def C_C(wavelength):
+    if wavelength < 1150:
+        result = 1.0
+    elif wavelength < 1200:
+        exponent = 0.018 * (wavelength - 1150.0)
+        result = 10**exponent
+    elif wavelength < 1400.0:
+        exponent = 0.04 * (wavelength - 1250)
+        result = 8.0 + 10.0**exponent
+    else:
+        result = 1
+    return result
+
+
+def C_E(alpha, t):
+    amax = alpha_max(t)
+    if alpha < alpha_min:
+        result = 1.0
+    elif alpha < alpha_min:
+        result = alpha / amax
+    else:
+        result = (alpha * alpha) / (amax * alpha_min)
+    return result
+
+
+def K_lambda(wavelength):
+    exponent = 0.01 * (1400.0 - wavelength)
+    return 10.0**exponent
+
+
+# MPEs
+
+
+def mpe_ret(wavelength, t, alpha=1):
+    if t < 1.0e-11:
+        result = (1.0e-7) * C_C(wavelength) * C_E(alpha, t)
+    elif t < 1.3e-5:
+        result = (2.0e-6) * C_C(wavelength) * C_E(alpha, t)
+    else:
+        result = (0.009) * C_C(wavelength) * C_E(alpha, t) * t**0.75
+    return result
+
+
+def mpe_cornea(wavelength, t):
+    if t < 1.0e-11:
+        result = 1.0e20
+    elif t < 1.0e-3:
+        result = 0.3 * K_lambda(wavelength)
+    elif t < 4:
+        result = 0.3 * K_lambda(wavelength) + 0.56 * t**0.75 - 0.1
+    return result
+
+
+# def main():
+#     alpha = 100
+#     wavelength = 1315
+#     dur = [1.0e-13, 1.0e-11, 1.3e-5, 6.25e-4, 1.0e-3, 0.25, 1.0]
+#     amax = [alpha_max(x) for x in dur]
+#     Ce = [C_E(alpha, x) for x in dur]
+#     MPEret = [mpe_ret(wavelength, alpha, x) for x in dur]
+#     MPEcor = [mpe_cornea(wavelength, x) for x in dur]
+#     MPE = [min(x, y) for x, y in zip(MPEret, MPEcor)]
+#     lblstr = "  t(s)        C_E      MPE(ret)    MPE(cor)    MPE"
+#     fmtstr = "{0:8.2e}   {1:8.2e}    {2:8.2e}    {3:8.2e}    {4:8.2e}"
+#     print(lblstr)
+#     for i in range(len(dur)):
+#         print(fmtstr.format(dur[i], Ce[i], MPEret[i], MPEcor[i], MPE[i]))
+
+
+# if __name__ == "__main__":
+#     main()
+
+# # fig4_1315.py
+# # MPE for 1315 nm, Plan D
+
+# wavelen = 1390.0
+
+# cc = 8.0 + 10.0 ** (0.04 * (wavelen - 1250.0))
+# klambda = 10.0 ** (0.01 * (1400.0 - wavelen))
+
+
+# def mpe1390(t):
+#     if t < 1.0e-11:
+#         return 1.0e-7 * cc
+#     if t < 1.3e-5:
+#         mret = 2.0e-6 * cc
+#         mcorn = 0.3 * klambda
+#         return min(mret, mcorn)
+#     if t < 1.0e-3:
+#         mret = 9.0e-3 * cc * t**0.75
+#         mcorn = 0.3 * klambda
+#         return min(mret, mcorn)
+#     if t < 4.0:
+#         mret = 9.0e-3 * cc * t**0.75
+#         mcorn = 0.3 * klambda + 0.56 * t**0.25 - 0.1
+#         return min(mret, mcorn)
+#     if t < 10.0:
+#         mret = 9.0e-3 * cc * t**0.75
+#         mcorn = 0.3 * klambda + 0.7
+#         return min(mret, mcorn)
+#     # t >= 10.0
+#     mret = 5.0e-3 * cc * t
+#     mcorn = 0.3 * klambda + 0.1 * t - 0.3
+#     return min(mret, mcorn)
+
+
+# # set up pulse durations for MPE calculations
+# tau = [1.0e-13, 9.9999e-12]
+# for i in range(-11, 1):
+#     for j in range(1, 10):
+#         t = j * 10.0**i
+#         tau.append(t)
+
+# # Calculate and output the MPE values
+# fmtstr = "%.1e   %.3e"
+# for t in tau:
+#     mpe = mpe1390(t)
+#     print(fmtstr % (t, mpe))
+
+# # fig4_1315.py
+# # MPE for 1315 nm, Plan D
+
+# wavelen = 1315.0
+
+# cc = 8.0 + 10.0 ** (0.04 * (wavelen - 1250.0))
+# klambda = 10.0 ** (0.01 * (1400.0 - wavelen))
+
+
+# def mpe1315(t):
+#     if t < 1.0e-11:
+#         return 1.0e-7 * cc
+#     if t < 1.3e-5:
+#         mret = 2.0e-6 * cc
+#         mcorn = 0.3 * klambda
+#         return min(mret, mcorn)
+#     if t < 1.0e-3:
+#         mret = 9.0e-3 * cc * t**0.75
+#         mcorn = 0.3 * klambda
+#         return min(mret, mcorn)
+#     if t < 4.0:
+#         mret = 9.0e-3 * cc * t**0.75
+#         mcorn = 0.3 * klambda + 0.56 * t**0.25 - 0.1
+#         return min(mret, mcorn)
+#     if t < 10.0:
+#         mret = 9.0e-3 * cc * t**0.75
+#         mcorn = 0.3 * klambda + 0.7
+#         return min(mret, mcorn)
+#     # t >= 10.0
+#     mret = 5.0e-3 * cc * t
+#     mcorn = 0.3 * klambda + 0.1 * t - 0.3
+#     return min(mret, mcorn)
+
+
+# # set up pulse durations for MPE calculations
+# tau = [1.0e-13, 9.9999e-12]
+# for i in range(-11, 1):
+#     for j in range(1, 10):
+#         t = j * 10.0**i
+#         tau.append(t)
+
+# # Calculate and output the MPE values
+# fmtstr = "%.1e   %.3e"
+# for t in tau:
+#     mpe = mpe1315(t)
+#     print(fmtstr % (t, mpe))
