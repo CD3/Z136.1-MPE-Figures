@@ -20,14 +20,42 @@ set -e -u
 source scripts/provision-deps.sh
 
 function usage {
-  printf "Usage: $0 [-h] [-g path/to/gnuplot] [extension1 [extention2 [...]]]\n"
+cat << EOF
+Usage: $0 [-h] [-g path/to/gnuplot] [extension1 [extention2 [...]]]
+
+Make Z136.1 figures by running the gnuplot scripts.
+
+This script basically just cd's into each figure directory, runs
+the make-data.py script and then runs the gnuplot script for each of
+the filetypes given as an argument.
+
+Example
+
+$ bash $0 pdf eps png
+
+Will generate pdf, eps, and png images for each figure in the build/ directory.
+
+Options:
+
+  -h             Print this help.
+  -g PATH        Specify the path to the gnuplot executable you want to use.
+                 Useful for specifying a specific version of gnuplot.
+  -p PATTERN     Give a pattern to match gnuplot scripts agains. This is used
+                 to limit the scripts that are run and is handy for development.
+
+
+EOF
 }
 
-while getopts "g:h" opt
+PATTERN="*"
+while getopts "g:hp:" opt
 do
   case "${opt}" in
     g)
       GNUPLOT=$(readlink -f "${OPTARG}")
+      ;;
+    p)
+      PATTERN="${OPTARG}"
       ;;
     h)
       usage
@@ -55,6 +83,7 @@ printf "Generating Z136.1 Figures\n\n"
 printf "   Gnuplot: %b\n" "$GNUPLOT"
 printf "    Python: %b\n" "$PYTHON"
 printf "Extensions: %b\n" "$EXTENSIONS"
+printf "   Pattern: %b\n" "$PATTERN"
 printf "\n"
 
 
@@ -84,7 +113,7 @@ function make_gnuplot_term_command_for_extension
 
 HERE=$PWD
 mkdir -p build
-for FILE in */*/*.gnuplot
+for FILE in */*/${PATTERN}.gnuplot
 do
   printf "\n\nGnuplot file: %b" "${FILE}"
   cd $(dirname ${FILE})
