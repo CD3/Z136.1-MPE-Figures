@@ -1,11 +1,11 @@
 import pathlib
+from decimal import Decimal as D
 
-pathlib.Path("data.txt").write_text(
-    """# alpha_max
-# t (s)    a_max (mrad)
-1.0e-13       5.0
-6.25e-4       5.0
-0.25        100.0
-3.0e+4      100.0
-"""
-)
+exec(pathlib.Path("../calculations.py").read_text())
+
+with pathlib.Path("data.txt").open("w") as fd:
+    fd.write("# alpha_max\n")
+    fd.write("# t (s)    a_max (mrad)\n")
+    for t in ["1.0e-13", "6.25e-4", "0.25", "3.0e+4"]:
+        a = alpha_max(D(t))
+        fd.write(f"{t} {a}\n")
