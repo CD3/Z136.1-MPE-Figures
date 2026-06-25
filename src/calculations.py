@@ -1,5 +1,8 @@
 import math
 
+# use decimal module so we don't have to deal with floating point rounding
+from decimal import Decimal as D
+
 #
 # Functions for calculating various parameter, correction factors, and MPEs.
 # Adapted by CD Clark III from scripts originally written by Brian Lund.
@@ -18,6 +21,19 @@ def alpha_max(t):
     else:
         result = 100.0
     return result
+
+
+def T_1(l):
+    return D(10) * 10 ** (D("0.02") * (l - D(450)))
+
+
+def T_2(a):
+    if a < D("1.5"):
+        return D("10")
+    if a < D("100"):
+        return D("10") * 10 ** ((a - D("1.5")) / D("98.5"))
+
+    return D("100")
 
 
 # CORRECTION FACTORS
