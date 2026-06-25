@@ -64,9 +64,8 @@ def C_E(alpha, t):
     return result
 
 
-def K_lambda(wavelength):
-    exponent = 0.01 * (1400.0 - wavelength)
-    return 10.0**exponent
+def K_lambda(l):
+    return 10 ** (D("0.01") * (D("1400.0") - l))
 
 
 # MPEs
