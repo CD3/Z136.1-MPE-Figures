@@ -84,6 +84,12 @@ def gamma(t):
     return D("110")
 
 
+def C_g(alpha, g):
+    if alpha <= g:
+        return D("1.0")
+    return (alpha / g) ** 2
+
+
 def K_lambda(l):
     return 10 ** (D("0.01") * (D("1400.0") - l))
 
