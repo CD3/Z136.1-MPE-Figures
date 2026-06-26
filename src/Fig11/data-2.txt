@@ -1,4 +1,4 @@
-# 5 mrad < alpha < alpha_max
-1.0   1.0
-40.0  0.4
+# 5 mrad < alpha <= alpha_max
+1.0 1.0
+40.0 0.4
 1.0e+6 0.4

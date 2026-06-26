@@ -1,36 +1,39 @@
 import math
-
-# use decimal module so we don't have to deal with floating point rounding
 from decimal import Decimal as D
 
 #
 # Functions for calculating various parameter, correction factors, and MPEs.
 # Adapted by CD Clark III from scripts originally written by Brian Lund.
 #
+# Note that all of these functions work with decimal.Deminal types instead of
+# floats so that we do not have to deal with floating point rounding issues.
+# This does mean that we need manually convert literals to decimal.Decimal, which is
+# why you will see D("6.25e-4") and D("1") for example.
+
 
 # PARAMETERS
 
 alpha_min = 1.5
 
 
-def alpha_max(t):
-    if t < 6.25e-4:
-        result = 5.0
-    elif t < 0.25:
-        result = 200.0 * math.sqrt(t)
-    else:
-        result = 100.0
-    return result
+def alpha_max(t: D) -> D:
+    if t < D("6.25e-4"):
+        return D("5.0")
+
+    if t < D("0.25"):
+        return D("200.0") * t ** D("0.5")
+
+    return D("100.0")
 
 
-def T_1(l):
+def T_1(l: D) -> D:
     return D(10) * 10 ** (D("0.02") * (l - D(450)))
 
 
-def T_2(a):
-    if a <= D("1.5"):
+def T_2(a: D) -> D:
+    if a < D("1.5"):
         return D("10")
-    if a <= D("100"):
+    if a < D("100"):
         return D("10") * 10 ** ((a - D("1.5")) / D("98.5"))
 
     return D("100")
@@ -39,7 +42,7 @@ def T_2(a):
 # CORRECTION FACTORS
 
 
-def C_A(l):
+def C_A(l: D) -> D:
     if l <= D("700"):
         return 1
     if l <= D("1050"):
@@ -48,14 +51,14 @@ def C_A(l):
     return D("5")
 
 
-def C_B(l):
+def C_B(l: D) -> D:
     if l <= D("450"):
         return D("1")
 
     return 10 ** (D("0.02") * (l - D("450")))
 
 
-def C_C(l):
+def C_C(l: D) -> D:
     if l <= D("1150"):
         return D("1")
     if l <= D("1200"):
@@ -64,7 +67,7 @@ def C_C(l):
     return D("8.0") + 10 ** (D("0.04") * (l - D("1250")))
 
 
-def C_E(alpha, t):
+def C_E(alpha: D, t: D) -> D:
     amax = alpha_max(t)
     if alpha < alpha_min:
         result = 1.0
@@ -75,7 +78,7 @@ def C_E(alpha, t):
     return result
 
 
-def gamma(t):
+def gamma(t: D) -> D:
     if t <= D("100"):
         return D("11")
     if t <= D("10000"):
@@ -84,14 +87,33 @@ def gamma(t):
     return D("110")
 
 
-def C_g(alpha, g):
+def C_g(alpha: D, g: D) -> D:
     if alpha <= g:
         return D("1.0")
     return (alpha / g) ** 2
 
 
-def K_lambda(l):
+def K_lambda(l: D) -> D:
     return 10 ** (D("0.01") * (D("1400.0") - l))
+
+
+def C_P(a: D, a_max: D, n: D) -> D:
+    if a <= D("5"):
+        return D("1.0")
+
+    if a <= a_max:
+        if n <= D("40"):
+            return n ** D("-0.25")
+        else:
+            return D("0.4")
+
+    if a <= D("100"):
+        if n <= D("625"):
+            return n ** D("-0.25")
+        else:
+            return D("0.2")
+
+    return D("1.0")
 
 
 # MPEs
