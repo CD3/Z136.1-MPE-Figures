@@ -75,6 +75,15 @@ def C_E(alpha, t):
     return result
 
 
+def gamma(t):
+    if t <= D("100"):
+        return D("11")
+    if t <= D("10000"):
+        return D("1.1") * t ** D("0.5")
+
+    return D("110")
+
+
 def K_lambda(l):
     return 10 ** (D("0.01") * (D("1400.0") - l))
 
