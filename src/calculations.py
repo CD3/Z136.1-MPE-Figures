@@ -119,6 +119,70 @@ def C_P(a: D, a_max: D, n: D) -> D:
 # MPEs
 
 
+def MPE_UV_THERM(l: D, t: D) -> D:
+    if l < D("180") or l > D("400"):
+        return None
+
+    if t <= D("1e-11"):
+        return D("3e-4")
+
+    if t <= D("1e-9"):
+        return D("1e-3")
+
+    if t <= D("10"):
+        return D("0.56") * t ** D("0.25")
+
+    return None
+
+
+def MPE_UV_PHOTO(l: D, t: D) -> D:
+    if l < D("180") or l > D("400"):
+        return None
+    if t <= D("1e-9") or t > D("10"):
+        return None
+
+    if l < D("260"):
+        return D("0.003") * 10 ** (D("0.033") * (D("260") - l))
+    if l < D("302.5"):
+        return D("3e-3")
+    if l < D("315"):
+        return 10 ** (D("0.2") * (l - D("295"))) * D("1e-4")
+    if l < D("400"):
+        return D("1.0")
+
+
+def MPE_VIS_PS(l: D, t: D) -> D:
+    pass
+
+
+def MPE_NIR_PS_RETINA(l: D, t: D) -> D:
+    pass
+
+
+def MPE_NIR_PS_CORNEA(l: D, t: D) -> D:
+    pass
+
+
+def MPE_FIR_PS(l: D, t: D) -> D:
+    pass
+
+
+def MPE_VIS_ES_THERMAL(l: D, t: D, a: D) -> D:
+    pass
+
+
+def MPE_VIS_ES_PHOTO(l: D, t: D, a: D) -> D:
+    pass
+
+
+def MPE_NIR_ES_RETINA(l: D, t: D, a: D) -> D:
+    pass
+
+
+def MPE_NIR_PS_CORNEA(l: D, t: D, a: D) -> D:
+    pass
+
+
 def mpe_ret(wavelength, t, alpha=1):
     if t < 1.0e-11:
         result = (1.0e-7) * C_C(wavelength) * C_E(alpha, t)

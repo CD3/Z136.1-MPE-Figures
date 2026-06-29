@@ -1,13 +1,11 @@
 import pathlib
+from decimal import Decimal as D
 
-pathlib.Path("data.txt").write_text(
-    """# Ultriviolet Photochemical MPE
-# # Wavelenght      MP (J/cm^2)
-180                 1.31
-260                 3.0e-3
-302.5               3.0e-3
-302.5               3.2e-3
-315                 1.0
-400                 1.0
-"""
-)
+exec(pathlib.Path("../calculations.py").read_text())
+
+with pathlib.Path("data.txt").open("w") as fd:
+    fd.write("# Ultriviolet Photochemical MPE\n")
+    fd.write("# Wavelength  MPE[J/cm^2]\n")
+    for l in ["180", "260", "302.499", "302.501", "315", "399.99"]:
+        val = MPE_UV_PHOTO(D(l), D("1e-8"))
+        fd.write(f"{D(l):.1f} {val:.3g}\n")
