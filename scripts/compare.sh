@@ -54,7 +54,7 @@ done
 shift $((OPTIND-1))
 
 
-GOLDEN_SNAPSHOT=${1:-"snapshots/2026-06-25-1/"}
+GOLDEN_SNAPSHOT=${1:-"snapshots/2026-06-29-1/"}
 NEW_SNAPSHOT=${2:-"build"}
 
 if [ ! -d "${GOLDEN_SNAPSHOT}" ]
