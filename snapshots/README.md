@@ -10,4 +10,4 @@ the Z136.1 SCDV-1.
 
 Snapshot created after fixing the y-axis scale in Figure 8. Not sure what actually caused the problem,
 it could be that an older version of Gnuplot handled the ytics setting correctly and this was broken with an update
-because the original script from Brian Lund produce the same image when ran with current version of Gnuplot.
+because the original script from Brian Lund produces the same image when run with the current version of Gnuplot.
