@@ -11,6 +11,14 @@ from decimal import Decimal as D
 # why you will see D("6.25e-4") and D("1") for example.
 
 
+def round_to_sigfigs(v: D, n: int):
+    """
+    Round a Decimal number to the given number of significant figures.
+    """
+    fmtstr = "{:." + str(n - 1) + "e}"
+    return D(fmtstr.format(v))
+
+
 # PARAMETERS
 
 alpha_min = 1.5
@@ -152,15 +160,85 @@ def MPE_UV_PHOTO(l: D, t: D) -> D:
 
 
 def MPE_VIS_PS(l: D, t: D) -> D:
-    pass
+    if l <= D("400") or l > D("700"):
+        return None
+    if t <= D("1e-13") or t > D("30000"):
+        return None
+
+    # MPE is the same for all wavelengths from 10**-13 to 10 s
+    if t <= D("1e-11"):
+        return D("1.0e-7")
+    if t <= D("5e-6"):
+        return D("2.0e-7")
+    if t <= D("10"):
+        return D("1.8") * t ** D("0.75") * D("1e-3")
+
+    if l <= D("450"):
+        if t <= D("100"):
+            return D("1.0e-2")
+        if t <= D("30000"):
+            return C_B(l) * D("1e-4") * t  # convert to radient exposure
+    if l <= D("500"):
+        pass
+    if l <= D("700"):
+        pass
 
 
 def MPE_NIR_PS_RETINA(l: D, t: D) -> D:
-    pass
+    if l <= D("700") or l > D("1400"):
+        return None
+    if t <= D("1e-13") or t > D("30000"):
+        return None
+
+    if l < D("1050"):
+        if t < D("1e-11"):
+            return D("1.0e-7")
+        if t < D("5e-6"):
+            return D("2.0") * C_A(l) * D("1e-7")
+        if t < D("10"):
+            return D("1.8") * C_A(l) * t ** D("0.75") * D("1e-3")
+        if t < D("30000"):
+            #      W / cm^2             convert to J/cm^2
+            return C_A(l) * D("1e-3") * t
+
+    if l < D("1200") or l < D("1400"):  # retinal MPEs are same from 1050 - 1400
+        if t < D("1e-11"):
+            return C_C(l) * D("1e-7")
+        if t < D("13e-6"):
+            return D("2.0") * C_C(l) * D("1e-6")
+        if t < D("10"):
+            return D("9.0") * C_C(l) * t ** D("0.75") * D("1e-3")
+        if t < D("30000"):
+            return D("5.0") * C_C(l) * D("1e-3") * t
 
 
 def MPE_NIR_PS_CORNEA(l: D, t: D) -> D:
-    pass
+    if l <= D("1200") or l > D("1400"):
+        return None
+    if t <= D("1e-11") or t > D("30000"):
+        return None
+
+    if t < D("1e-3"):
+        return D("0.3") * K_lambda(l)
+    if t < D("4"):
+        return D("0.3") * K_lambda(l) + D("0.56") * t ** D("0.25") - D("0.1")
+    if t < D("10"):
+        return D("0.3") * K_lambda(l) + D("0.7")
+    if t < D("30000"):
+        return (D("0.03") * K_lambda(l) + D("0.07")) * t
+
+
+def MPE_NIR_PS(l: D, t: D) -> D:
+    mpe_r = MPE_NIR_PS_RETINA(l, t)
+    mpe_c = MPE_NIR_PS_CORNEA(l, t)
+    if mpe_c is None and mpe_r is None:
+        return None
+    if mpe_c is None:
+        return mpe_r
+    if mpe_r is None:
+        return mpe_c
+    # FIXME: we need to compare MPE:Q
+    return min(mpe_r, mpe_c)
 
 
 def MPE_FIR_PS(l: D, t: D) -> D:
@@ -176,10 +254,6 @@ def MPE_VIS_ES_PHOTO(l: D, t: D, a: D) -> D:
 
 
 def MPE_NIR_ES_RETINA(l: D, t: D, a: D) -> D:
-    pass
-
-
-def MPE_NIR_PS_CORNEA(l: D, t: D, a: D) -> D:
     pass
 
 
