@@ -1,5 +1,54 @@
 import pathlib
 
+exec(pathlib.Path("../calculations.py").read_text())
+
+
+with pathlib.Path("data.txt").open("w") as fd:
+    a = D("100")
+    Omega = D("3.14159") * (a / D("1000")) ** 2 / D("4")
+
+    # Need to sample time from 1e-13 to 1 in order to capture the crossover between
+    durations = []
+    for power in range(-13, 0):
+        for mantissa in [
+            x / 2 for x in range(2, 20)
+        ]:  # this gives 1.0, 1.5, 2.0, 2.5,...,9.5
+            t = D(f"{mantissa}e{power}")
+            if t > D("1"):
+                break
+            durations.append(t)
+
+    # add a duration right below 1e-11 to help with plotting the sharp transision
+    durations.append(D("0.9999e-11"))
+    durations.sort()  # sort then so gnuplot can draw the lines correctly.
+
+    l = D("400")
+    fd.write("# 400 to 700 nm\n")
+    for t in durations:
+        t = D(t)
+        val = MPE_VIS_ES(l, t, a) / Omega  # convert to integrated radiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
+
+    fd.write("\n")
+
+    l = D("1064")
+    fd.write("# 1064 nm\n")
+    for t in durations:
+        t = D(t)
+        val = MPE_NIR_ES(l, t, a) / Omega  # convert to integrated radiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
+
+    fd.write("\n")
+
+    l = D("1315")
+    fd.write("# 1315 nm\n")
+    for t in durations:
+        t = D(t)
+        val = MPE_NIR_ES(l, t, a) / Omega  # convert to integrated radiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
+exit()
+import pathlib
+
 pathlib.Path("data.txt").write_text(
     """# lambda = 400 nm - 700 nm
 # t(s)    MPE(J/cm^2/sr)
