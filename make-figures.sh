@@ -133,5 +133,27 @@ do
   cd "${HERE}"
 done
 
+for EXT in ${EXTENSIONS}
+do
+  cd "build/${EXT}"
+cat > "Figures.md" << EOF
+---
+title: Z136.1 MPE Figures
+---
+
+<!-- You can convert this file to a Word document using Pandoc -->
+EOF
+  ls *.${EXT} | sort -V | sed "s/^/![](/;s/$/)\n/" >> Figures.md
+
+  cd "${HERE}"
+done
+
 printf "Done generating figures. All image files are in build/\n"
 printf "To clean the project, just remove the build/ directory.\n"
+printf "\n"
+printf "You can generate a Word document with all figures inserted as images using Pandoc.\n"
+printf "For example:\n"
+printf "\n"
+printf "$ cd build/pdf\n$ pandoc Figures.md -o Figures.docx\n"
+printf "\n"
+
