@@ -47,7 +47,7 @@ with pathlib.Path("data.txt").open("w") as fd:
 
     fd.write("\n")
     l = D("500")
-    fd.write(f"# 500 to 700 nm\n")
+    fd.write(f"# 500 to 700 nm Thermal\n")
     for t in ["1.0e-1", "2.5e-1", "1.0e1", "1.0e2", "2.99999e4"]:
         t = D(t)
         val = MPE_VIS_ES_THERMAL(l, t, a) / t  # convert to irradiance
@@ -85,4 +85,3 @@ with pathlib.Path("data.txt").open("w") as fd:
         t = D(t)
         val = MPE_NIR_ES(l, t, a) / t  # convert to irradiance
         fd.write(f"{t:.1e} {val:.3e}\n")
-    exit()
