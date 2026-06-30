@@ -358,7 +358,7 @@ def MPE_VIS_ES_PHOTO(l: D, t: D, a: D) -> D:
     if t < D("100"):
         return C_B(l) * C_g(a, gamma(t)) * D("1e-2")
 
-    return C_B(l) * C_g(a, gamma(t)) * D("1e-4")
+    return C_B(l) * C_g(a, gamma(t)) * D("1e-4") * t
 
 
 def MPE_VIS_ES(l: D, t: D, a: D) -> D:
@@ -378,7 +378,58 @@ def MPE_VIS_ES(l: D, t: D, a: D) -> D:
 
 
 def MPE_NIR_ES_RETINA(l: D, t: D, a: D) -> D:
-    pass
+    if l < D("700") or l >= D("1400"):
+        return None
+    if t < D("1e-13") or t >= D("30000"):
+        return None
+
+    if l < D("1050"):
+        if t < D("1e-11"):
+            return C_E(a, t) * D("1e-7")
+        if t < D("5e-6"):
+            return D("2.0") * C_A(l) * C_E(a, t) * D("1e-7")
+        if t < T_2(a):
+            return D("1.8") * C_A(l) * C_E(a, t) * t ** D("0.75") * D("1e-3")
+        if t < D("30000"):
+            return D("1.8") * C_A(l) * C_E(a, t) * T_2(a) ** D("-0.25") * D("1e-3") * t
+    if l < D("1200") or l < D("1400"):  # Retina MPE is same from 1050 - 1400 nm
+        if t < D("1e-11"):
+            return C_C(l) * C_E(a, t) * D("1e-7")
+        if t < D("13e-6"):
+            return D("2.0") * C_C(l) * C_E(a, t) * D("1e-6")
+        if t < T_2(a):
+            return D("9.0") * C_C(l) * C_E(a, t) * t ** D("0.75") * D("1e-3")
+        if t < D("30000"):
+            return D("9.0") * C_C(l) * C_E(a, t) * T_2(a) ** D("-0.25") * D("1e-3") * t
+
+
+def MPE_NIR_ES_CORNEA(l: D, t: D, a: D) -> D:
+    if l < D("1200") or l >= D("1400"):
+        return None
+    if t < D("1e-11") or t >= D("30000"):
+        return None
+
+    if t < D("13e-6") or t < D("1e-3"):
+        return D("0.3") * K_lambda(l)
+    if t < D("4"):
+        return D("0.3") * K_lambda(l) + D("0.56") * t ** D("0.25") - D("0.1")
+    if t < D("10"):
+        return D("0.3") * K_lambda(l) + D("0.7")
+    if t < D("30000"):
+        return (D("0.03") * K_lambda(l) + D("0.07")) * t
+
+
+def MPE_NIR_ES(l: D, t: D, a: D) -> D:
+    mpe_r = MPE_NIR_ES_RETINA(l, t, a)
+    mpe_c = MPE_NIR_ES_CORNEA(l, t, a)
+    if mpe_c is None and mpe_r is None:
+        return None
+    if mpe_c is None:
+        return mpe_r
+    if mpe_r is None:
+        return mpe_c
+    # FIXME: we need to compare MPE:Q
+    return min(mpe_r, mpe_c)
 
 
 def mpe_ret(wavelength, t, alpha=1):

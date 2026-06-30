@@ -1,105 +1,88 @@
 import pathlib
 
-pathlib.Path("data-therm.txt").write_text(
-    """# Data for ANSI Z136.1 Figure 10b
-# Thermal MPE, 400 nm to 700 nm
-1.0e-01   6.402e-03
-2.5e-01   5.091e-03
-1.0e+01   2.007e-03
-3.0e+04   2.007e-03
+exec(pathlib.Path("../calculations.py").read_text())
 
+# NOTE: In 2007 there were dual limits for the point source visible MPEs.
+#       These were removed in 2014 but the figure still references
+#       thermal vs photochemical in both 2014 and 2022 versions.
 
-# MPE for 850 nm
-1.0e-01   1.277e-02
-2.5e-01   1.016e-02
-1.0e+01   4.004e-03
-3.0e+04   4.004e-03
+with pathlib.Path("data.txt").open("w") as fd:
+    a = D("3")
+    T2 = T_2(a)
+    fd.write("# t [s]   MPE [W/cm^2]\n")
+    l = D("400")
+    fd.write("# 400 to 700 Thermal nm\n")
+    for t in ["1.0e-1", "2.5e-1", "1.0e1", T2, "1.0e2", "2.99999e4"]:
+        t = D(t)
+        val = MPE_VIS_ES_THERMAL(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
 
+    fd.write("\n")
+    durations = [D("7e-1")]
+    N = 100
+    dt = (D("100") - D("7e-1")) / (N - 1)
+    durations += [durations[0] + dt * i for i in range(N)]
+    durations += [D("2.99999e4")]
+    fd.write("# 400 to 450 nm Dual Limit (Lower of Thermal and Photochemical)\n")
+    for t in durations:
+        t = D(t)
+        val = MPE_VIS_ES(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.3e} {val:.3e}\n")
 
-# MPE for 1064 nm
-1.0e-01   3.201e-02
-2.5e-01   2.546e-02
-1.0e+01   1.003e-02
-3.0e+04   1.003e-02
+    fd.write("\n")
+    l = D("475")
+    fd.write(f"# {l} nm\n")
+    for t in durations:
+        t = D(t)
+        val = MPE_VIS_ES(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
 
+    fd.write("\n")
+    l = D("500")
+    fd.write(f"# {l} nm\n")
+    for t in durations:
+        t = D(t)
+        val = MPE_VIS_ES(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
 
-# MPE for 1315 nm
-1.000e-01  1.300e+01
-2.279e-01  1.058e+01
-2.279e-01  1.058e+01
-3.035e-01  8.039e+00
-4.041e-01  6.113e+00
-5.382e-01  4.651e+00
-7.168e-01  3.542e+00
-9.547e-01  2.700e+00
-1.271e+00  2.059e+00
-1.693e+00  1.572e+00
-2.255e+00  1.202e+00
-3.003e+00  9.193e-01
-4.000e+00  7.060e-01
-1.000e+01  2.824e-01
-1.036e+01  2.824e-01
-3.000e+04  2.824e-01
+    fd.write("\n")
+    l = D("500")
+    fd.write(f"# 500 to 700 nm\n")
+    for t in ["1.0e-1", "2.5e-1", "1.0e1", "1.0e2", "2.99999e4"]:
+        t = D(t)
+        val = MPE_VIS_ES_THERMAL(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
 
+    # INFRARED
+    fd.write("\n")
+    l = D("850")
+    fd.write(f"# 850 nm\n")
+    for t in ["1.0e-1", "2.5e-1", "1.0e1", "1.0e2", "2.99999e4"]:
+        t = D(t)
+        val = MPE_NIR_ES(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
 
-# MPE for 1400 nm
-1.0e-01   5.149e+00
-2.5e-01   2.384e+00
-4.0e-01   1.613e+00
-6.0e-01   1.155e+00
-8.0e-01   9.120e-01
-1.0e+00   7.600e-01
-1.3e+00   6.138e-01
-2.0e+00   4.330e-01
-2.3e+00   3.868e-01
-3.0e+00   3.123e-01
-3.3e+00   2.893e-01
-4.0e+00   2.500e-01
-1.0e+01   1.000e-01
-2.0e+01   1.000e-01
-4.0e+01   1.000e-01
-6.0e+01   1.000e-01
-8.0e+01   1.000e-01
-1.0e+02   1.000e-01
-2.0e+02   1.000e-01
-4.0e+02   1.000e-01
-6.0e+02   1.000e-01
-8.0e+02   1.000e-01
-1.0e+03   1.000e-01
-2.0e+03   1.000e-01
-4.0e+03   1.000e-01
-6.0e+03   1.000e-01
-8.0e+03   1.000e-01
-1.0e+04   1.000e-01
-2.0e+04   1.000e-01
-3.0e+04   1.000e-01
-"""
-)
+    fd.write("\n")
+    l = D("1064")
+    fd.write(f"# 1064 nm\n")
+    for t in ["1.0e-1", "2.5e-1", "1.0e1", "1.0e2", "2.99999e4"]:
+        t = D(t)
+        val = MPE_NIR_ES(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
 
-pathlib.Path("data-photo.txt").write_text(
-    """# Data for ANSI Z136.1 Figure 10b
-# Photochemical MPE for 400 to 450 nm
-3.9e+00   2.561e-03
-1.0e+02   1.000e-04
-3.0e+04   1.000e-04
+    fd.write("\n")
+    l = D("1315")
+    fd.write(f"# 1315 nm\n")
+    for t in ["1.0e-1", "2.5e-1", "1.0e1", "1.0e2", "2.99999e4"]:
+        t = D(t)
+        val = MPE_NIR_ES(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
 
-
-# Photochemical MPE for 475 nm
-1.6e+01   2.007e-03
-1.0e+02   3.162e-04
-3.0e+04   3.162e-04
-
-
-# Photochemical MPE for 500 nm
-5.0e+01   2.007e-03
-1.0e+02   1.000e-03
-3.0e+04   1.000e-03
-
-
-# MPE for 850 nm
-1.0e-01   1.277e-02
-2.5e-01   1.016e-02
-1.0e+01   4.004e-03
-3.0e+04   4.004e-03
-"""
-)
+    fd.write("\n")
+    l = D("1399.9999")
+    fd.write(f"# 1400 nm\n")
+    for t in ["1.0e-1", "2.5e-1", "1.0e1", "1.0e2", "2.99999e4"]:
+        t = D(t)
+        val = MPE_NIR_ES(l, t, a) / t  # convert to irradiance
+        fd.write(f"{t:.1e} {val:.3e}\n")
+    exit()
