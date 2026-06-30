@@ -276,8 +276,58 @@ def MPE_NIR_PS(l: D, t: D) -> D:
     return min(mpe_r, mpe_c)
 
 
-def MPE_FIR_PS(l: D, t: D) -> D:
-    pass
+def MPE_FIR(l: D, t: D) -> D:
+    if l < D("1400") or l >= D("1000000"):
+        return None
+    if t < D("1e-13") or t >= D("30000"):
+        return None
+
+    if l < D("1500"):
+        if t < D("1e-11"):
+            return D("0.03")
+        if t < D("1e-9"):
+            return D("0.1")
+        if t < D("1e-3"):
+            return D("0.3")
+        if t < D("4"):
+            return D("0.56") * t ** D("0.25") + D("0.2")
+        if t < D("10"):
+            return D("1.0")
+
+        return D("0.1") * t
+
+    if l < D("1800"):
+        if t < D("1e-11"):
+            return D("0.1")
+        if t < D("1e-9"):
+            return D("0.3")
+        if t < D("10"):
+            return D("1.0")
+
+        return D("0.1") * t
+    if l < D("2600"):
+        if t < D("1e-11"):
+            return D("0.01")
+        if t < D("1e-9"):
+            return D("0.03")
+        if t < D("1e-3"):
+            return D("0.1")
+        if t < D("10"):
+            return D("0.56") * t ** D("0.25")
+
+        return D("0.1") * t
+
+    if l < D("1000000"):
+        if t < D("1e-11"):
+            return D("1e-3")
+        if t < D("1e-9"):
+            return D("3e-3")
+        if t < D("1e-7"):
+            return D("1e-2")
+        if t < D("10"):
+            return D("0.56") * t ** D("0.25")
+
+        return D("0.1") * t
 
 
 def MPE_VIS_ES_THERMAL(l: D, t: D, a: D) -> D:
