@@ -35,17 +35,19 @@ set label 2 '475 nm' at first 3.0e+4, first 5.2e-2 center front
 set label 3 '500 nm' at first 3.0e+4, first 1.4e-1 center front
 set label 4 '532 nm' at first 3.0e+4, first 6.4e-1 center front
 set label 5 '550 nm' at first 3.0e+4, first 1.6 center front
-set label 6 '400 - 700 nm' at first 3.2, first 6.0 center front
 set label 7 '850 nm' at first 0.3, first 8.0 center front
 set arrow 7 from first 0.3, first 10.0 to first 0.4, first 33.0 linestyle 1
-set label 8 '1064 nm' at first 3.0e+4, first 36.0 center front
-set label 9 '1315 nm' at first 2.0, first 600 center front
+set label 8 '1064 nm' at first 4, first 1500.0 center front
+set arrow 8 from first 4, first 1000 to first 0.5, first 110.0 linestyle 1
+set label 9 '1315 nm' at first 3.0e+4, first 50 center front
 set label 10 '1400 nm' at first 0.3, first 4.5e+3 center front
-set arrow 10 from first 0.3, first 3.0e+3 to first 0.2, first 440.0 \
-    linestyle 1
+set arrow 10 from first 0.3, first 3.0e+3 to first 0.2, first 340.0 linestyle 1
+set label 11 '400 - 700 nm' at first 3.2, first 6.0 center front
+set label 12 'Thermal' at first 3.2, first 3.5 center front
 
-plot 'data-therm.txt' index 0:2 notitle with lines linestyle 1, \
-     'data-cornea.txt' index 0:1 notitle with lines linestyle 5, \
-     'data-photo.txt' index 0:4 notitle with lines linestyle 2
+#plot 'data-therm.txt' index 0:2 notitle with lines linestyle 1, \
+#     'data-cornea.txt' index 0:1 notitle with lines linestyle 5, \
+#     'data-photo.txt' index 0:4 notitle with lines linestyle 2
 
 
+plot 'data.txt' notitle with lines linestyle 1, \
