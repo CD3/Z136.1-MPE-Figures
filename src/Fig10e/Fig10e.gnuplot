@@ -33,22 +33,17 @@ set label 2 '475 nm' at first 1.0e+4, first 4.8e-4 center front
 set label 3 '500 nm' at first 1.0e+4, first 1.4e-3 center front
 set label 4 '532 nm' at first 1.0e+4, first 6.0e-3 center front
 set label 5 '550 nm' at first 1.0e+4, first 1.4e-2 center front
-set label 6 '400 - 700 nm' at first 1.0e+4, first 3.8e-2 center front
+set label 6 '400 - 700 nm Thermal' at first 1.0e+4, first 3.8e-2 center front
 set label 7 '850 nm' at first 0.2, first 0.02 left front
 set arrow 7 from first 0.36, first 0.027 to first 0.53, first 0.13 \
      linestyle 1
-set label 8 '1064 nm' at first 1.0e+4, first 0.2 center front
-set label 9 '1315 nm' at first 4.0, first 2.0 center front
+set label 8 '1064 nm' at first 1.0e+4, first 0.18 center front
+set label 9 '1315 nm' at first 1.0e+4, first 0.4 center front
 set label 10 '1400 nm' at first 0.2, first 30 left front
 set arrow 10 from first 0.36, first 21.0 to first 0.2, first 3.1 linestyle 1
 
-#plot 'Fig10e_therm.dat' notitle with lines linestyle 1, \
-#     'Fig10e_photo.dat' notitle with lines linestyle 2
 
-plot 'data-therm.txt' index 0:1 notitle with lines linestyle 1, \
-     'data-therm.txt' index 2 notitle with lines linestyle 5, \
-     'data-therm.txt' index 3:4 notitle with lines linestyle 1, \
-     'data-photo.txt' notitle with lines linestyle 2
+plot 'data.txt' notitle with lines linestyle 1, \
 
 unset label 1
 unset label 2
