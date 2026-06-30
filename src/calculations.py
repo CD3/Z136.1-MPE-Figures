@@ -160,7 +160,7 @@ def MPE_UV_THERM(l: D, t: D) -> D:
 def MPE_UV_PHOTO(l: D, t: D) -> D:
     if l < D("180") or l >= D("400"):
         return None
-    if t <= D("1e-9") or t >= D("10"):
+    if t < D("1e-9") or t >= D("30000"):
         return None
 
     if l < D("260"):
@@ -170,7 +170,21 @@ def MPE_UV_PHOTO(l: D, t: D) -> D:
     if l < D("315"):
         return 10 ** (D("0.2") * (l - D("295"))) * D("1e-4")
     if l < D("400"):
+        if t < D("10"):
+            return None
         return D("1.0")
+
+
+def MPE_UV(l: D, t: D) -> D:
+    mpe_t = MPE_UV_THERM(l, t)
+    mpe_p = MPE_UV_PHOTO(l, t)
+
+    if mpe_t is None:
+        return mpe_p
+    if mpe_p is None:
+        return mpe_t
+
+    return min(mpe_t, mpe_p)
 
 
 def MPE_VIS_PS(l: D, t: D) -> D:
