@@ -53,6 +53,17 @@ do
 done
 shift $((OPTIND-1))
 
+GOOD=""
+BAD=""
+OK=""
+NORMAL=""
+if which tput > /dev/null
+then
+  GOOD=$(tput setaf 2)
+  BAD=$(tput setaf 1)
+  OK=$(tput setaf 3)
+  NORMAL=$(tput sgr0)
+fi
 
 GOLDEN_SNAPSHOT=${1:-"snapshots/2026-06-30/"}
 NEW_SNAPSHOT=${2:-"build"}
@@ -80,7 +91,9 @@ fi
 printf "Running diff on two snapshots directories\n"
 printf "  Golden Snapshot: %b\n" "${GOLDEN_SNAPSHOT}"
 printf "     New Snapshot: %b\n" "${NEW_SNAPSHOT}"
-diff -r "${NEW_SNAPSHOT}/eps" "${GOLDEN_SNAPSHOT}/eps" && printf "EPS Images are IDENTICAL!\n"
+
+printf "${OK}Comparing new EPS files with golden snapshot${NORMAL}\n"
+diff -r -q "${NEW_SNAPSHOT}/eps" "${GOLDEN_SNAPSHOT}/eps" && printf "${GOOD}EPS images are IDENTICAL!${NORMAL}\n" || printf "${BAD}EPS images are DIFFERENT${NORMAL}\n"
 
 DIFFPDF=$(which comparepdf || which diff-pdf || echo "")
 if [ -z "${DIFFPDF}" ]
@@ -94,6 +107,8 @@ then
   DIFFPDF_OPTS="-ca"
 fi
 
+printf "${OK}Comparing new PDF files with golden snapshot${NORMAL}\n"
+printf "If binary differences are detected a PDF diff tool will be used to (attempt) determine if there are visual differences.\n"
 DIFFERENCES=""
 IFS=$'\n\t'
 for LINE in $(diff -r "${NEW_SNAPSHOT}/pdf" "${GOLDEN_SNAPSHOT}/pdf")
@@ -109,6 +124,7 @@ do
 done
 if [ -n "${DIFFERENCES}" ]
 then
+  printf "${BAD}PDF images are DIFFERENT${NORMAL}\n"
   printf "${DIFFERENCES}\n"
   printf "You can use 'diffpdf -a file1.pdf file2.pdf' or 'diff-pdf --view file1.pdf file2.pdf' to see the differences.\n"
 
@@ -133,5 +149,5 @@ then
   fi
 
 else
-  printf "PDF Images are IDENTICAL! (or at least appear to be)\n"
+  printf "${GOOD}PDF Images are IDENTICAL! (or at least appear to be).${NORMAL}\n"
 fi
