@@ -93,61 +93,12 @@ printf "  Golden Snapshot: %b\n" "${GOLDEN_SNAPSHOT}"
 printf "     New Snapshot: %b\n" "${NEW_SNAPSHOT}"
 
 printf "${OK}Comparing new EPS files with golden snapshot${NORMAL}\n"
-diff -r -q "${NEW_SNAPSHOT}/eps" "${GOLDEN_SNAPSHOT}/eps" && printf "${GOOD}EPS images are IDENTICAL!${NORMAL}\n" || printf "${BAD}EPS images are DIFFERENT${NORMAL}\n"
-
-DIFFPDF=$(which comparepdf || which diff-pdf || echo "")
-if [ -z "${DIFFPDF}" ]
-then
-  printf "Can't diff PDF files, could not find 'diff-pdf' or 'diffpdf'. You can install it with 'apt install diff-pdf-wx' or 'apt install diffpdf'.\n"
-  exit 1
-fi
-DIFFPDF_OPTS=""
-if [ $(basename ${DIFFPDF}) = "comparepdf" ]
-then
-  DIFFPDF_OPTS="-ca"
-fi
+diff -r -q "${NEW_SNAPSHOT}/eps" "${GOLDEN_SNAPSHOT}/eps" \
+  && printf "${GOOD}EPS images are IDENTICAL!${NORMAL}\n" \
+  || printf "${BAD}EPS images are DIFFERENT.${NORMAL}\n"
 
 printf "${OK}Comparing new PDF files with golden snapshot${NORMAL}\n"
-printf "If binary differences are detected a PDF diff tool will be used to (attempt) determine if there are visual differences.\n"
 DIFFERENCES=""
-IFS=$'\n\t'
-for LINE in $(diff -r "${NEW_SNAPSHOT}/pdf" "${GOLDEN_SNAPSHOT}/pdf")
-do
-  # Binary files are different. Use a PDF diffing tool to make sure.
-  FILE=$(echo ${LINE} | sed "s|Binary files.*pdf/||;s| .*||")
-
-  "${DIFFPDF}" ${DIFFPDF_OPTS} "${NEW_SNAPSHOT}/pdf/${FILE}" "${GOLDEN_SNAPSHOT}/pdf/${FILE}"
-  if [ "$?" -ne 0 ]
-  then
-    DIFFERENCES="${DIFFERENCES}\n${LINE}"
-  fi
-done
-if [ -n "${DIFFERENCES}" ]
-then
-  printf "${BAD}PDF images are DIFFERENT${NORMAL}\n"
-  printf "${DIFFERENCES}\n"
-  printf "You can use 'diffpdf -a file1.pdf file2.pdf' or 'diff-pdf --view file1.pdf file2.pdf' to see the differences.\n"
-
-  if [ "${VIEW_PDF_DIFFS}" -ne 0 ]
-  then
-    GRAPHIC_DIFFPDF=$(which diffpdf || which diff-pdf || echo "")
-    DIFFPDF_OPTS=""
-    if [ $(basename ${DIFFPDF}) = "diffpdf" ]
-    then
-      DIFFPDF_OPTS="-a"
-    fi
-    if [ $(basename ${DIFFPDF}) = "diff-pdf" ]
-    then
-      DIFFPDF_OPTS="--view"
-    fi
-
-    for LINE in "${DIFFERENCES}"
-    do
-      FILE=$(echo ${LINE} | sed "s|.*Binary files.*pdf/||;s| .*||")
-      "${GRAPHIC_DIFFPDF}" ${DIFFPDF_OPTS} "${NEW_SNAPSHOT}/pdf/${FILE}" "${GOLDEN_SNAPSHOT}/pdf/${FILE}"
-    done
-  fi
-
-else
-  printf "${GOOD}PDF Images are IDENTICAL! (or at least appear to be).${NORMAL}\n"
-fi
+diff -r "${NEW_SNAPSHOT}/pdf" "${GOLDEN_SNAPSHOT}/pdf" \
+  && printf "${GOOD}PDF Images are IDENTICAL!${NORMAL}\n" \
+  || printf "${BAD}PDF Images are DIFFERENT!${NORMAL}\nYou can check for visual differences using the view-pdf-diffs.py script:\n\n$ python3 $(dirname ${0})/view-pdf-diffs.py ${NEW_SNAPSHOT}/pdf ${GOLDEN_SNAPSHOT}/pdf\n\n"
