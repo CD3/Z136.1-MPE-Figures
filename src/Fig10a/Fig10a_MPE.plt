@@ -9,7 +9,7 @@ set yrange [1.0e-5:10.0]
 set logscale xy
 
 set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
-set style line 2 linetype 2 linewidth 2 linecolor rgb "black"
+set style line 2 linetype 2 linewidth 2 linecolor rgb "black" dashtype 2
 set style line 3 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 4 linetype 1 linewidth 1 linecolor rgb "dark-gray"
 
@@ -30,7 +30,7 @@ set format x '10^{%L}'
 set format y '10^{%L}'
 
 set label 1 '400 - 700 nm' at first 1000.0, first 1.4e-3 center front
-set label 2 '490 nm' at first 1000.0, first 8.6e-4 center front
+set label 2 '490 nm' at first 1000.0, first 8.4e-4 center front font "Helvetica, 8"
 set label 3 '475 nm' at first 1000.0, first 4.5e-4 center front
 set label 4 '400 - 450 nm' at first 1000.0, first 1.4e-4 center front
 set label 5 '850 nm' at first 1000.0, first 2.8e-3 center front

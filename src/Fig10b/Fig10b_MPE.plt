@@ -9,7 +9,7 @@ set yrange [1.0e-5:100.0]
 set logscale xy
 
 set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
-set style line 2 linetype 2 linewidth 2 linecolor rgb "black"
+set style line 2 linetype 2 linewidth 2 linecolor rgb "black" dashtype 2
 set style line 3 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 4 linetype 1 linewidth 1 linecolor rgb "dark-gray"
 

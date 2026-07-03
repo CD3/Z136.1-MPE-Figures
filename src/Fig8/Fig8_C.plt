@@ -16,10 +16,9 @@ set yrange [0.9:11.0]
 set logscale y
 unset logscale x
 
-set mytics 10 
 set mxtics 5
 set xtics 400, 100
-set ytics 1,10
+set ytics (1 0,10 0, 2 1, 3 1, 4 1, 5 1, 6 1, 7 1, 8 1, 9 1)
 set grid xtics ytics
 set grid mxtics mytics
 set grid linestyle 2, linestyle 3

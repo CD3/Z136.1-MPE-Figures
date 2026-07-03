@@ -16,7 +16,7 @@ set format x '10^{%L}'
 set format y '{%.1f}'
 
 set mxtics 10
-set mytics 10
+set ytics (0.1 0,1.0 0, 0.2 1, 0.3 1, 0.4 1, 0.5 1, 0.6 1, 0.7 1, 0.8 1, 0.9 1)
 set grid xtics ytics
 set grid mxtics mytics
 set grid linestyle 2, linestyle 3

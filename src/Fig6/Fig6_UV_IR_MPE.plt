@@ -4,12 +4,12 @@
 #
 # Author: Brian J. Lund
 
-set xrange [1.0e-13:1.0e+5]
-set yrange [1.0e-5:1.0e+4]
+set xrange [1.0e-9:1.0e+5]
+set yrange [1.0e-3:1.0e+4]
 set logscale xy
 
 set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
-set style line 2 linetype 2 linewidth 2 linecolor rgb "black" dashtype 4
+set style line 2 linetype 2 linewidth 2 linecolor rgb "black" dashtype 2
 set style line 3 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 4 linetype 1 linewidth 1 linecolor rgb "dark-gray"
 set style line 5 linetype 1 linewidth 3 linecolor rgb "black"
@@ -28,7 +28,7 @@ set ylabel 'Radiant Exposure (J/cm^2)'
 set format x '10^{%L}'
 set format y '10^{%L}'
 
-set label 1 '315 - 400 nm' at first 2e-9, first 1e-3
+set label 1 '315 - 400 nm' at first 1e-8, first 4e-3
 set label 2 '> 2600 nm' at first 2e-9, first 1.5e-2
 set label 3 '1800 - 2600 nm' at first 2e-9, first 1.5e-1
 set label 4 '1500 - 1800 nm' at first 2e-9, first 1.5 
@@ -38,7 +38,7 @@ set label 7 '1400 - 1500 nm' at first 2e-9, first 0.5
 
 #plot 'Fig6_IR_MPE_Data.dat' notitle with lines linestyle 1, \
 #     'Fig6_UV_MPE_Data.dat' notitle with lines linestyle 2
-plot 'Fig6_IR_MPE_Data.dat' index 0 notitle with lines linestyle 5, \
+plot 'Fig6_IR_MPE_Data.dat' index 0 notitle with lines linestyle 1, \
      '' index 1 notitle with lines linestyle 1, \
      '' index 2 notitle with lines linestyle 1, \
      '' index 3 notitle with lines linestyle 1, \

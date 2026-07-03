@@ -12,7 +12,9 @@ set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
 set style line 2 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 3 linetype 1 linewidth 1 linecolor rgb "dark-gray"
 
-set mxtics 10 
+# set mxtics 10 
+# A hack to get the labels to show
+set xtics ("10" 10.01 0,100 0, 20 1, 30 1, 40 1, 50 1, 60 1, 70 1, 80 1, 90 1)
 set mytics 10
 set grid xtics ytics
 set grid mxtics mytics
