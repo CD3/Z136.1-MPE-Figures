@@ -18,8 +18,10 @@ with pathlib.Path("data.txt").open("w") as fd:
                 break
             durations.append(t)
 
-    # add a duration right below 1e-11 to help with plotting the sharp transision
+    # add other durations needed to capture sharp corners
     durations.append(D("0.9999e-11"))
+    durations.append(D("1.3e-5"))
+    durations.append(D("1.299e-5"))
     durations.sort()  # sort then so gnuplot can draw the lines correctly.
 
     l = D("400")
