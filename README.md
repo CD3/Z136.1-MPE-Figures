@@ -38,3 +38,8 @@ The repository contains some tools for detecting changes to the figures. This is
 EPS and PDF versions of all figures, and comparing them to a previous "golden" snapshot. This is useful for developing/refactoring/fixing
 the Gnuplot scripts. For example, when the Figure 8 script was being updated to fix the major/minor tic marks, the
 `scripts/compare.sh` script was used to detect any changes that were introduced and catch errors.
+
+## Branches
+
+The branch named 2022-version contains scripts that replicate the figures in the Z136.1-2022 standard. It is not an _exact_ replication,
+the scripts imported into the repository's first commit were already modified for changes going into the next version of the standard.
