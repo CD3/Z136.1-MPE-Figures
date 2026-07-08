@@ -1,0 +1,210 @@
+#import "@preview/unify:0.8.1": qty,unit
+
+// {{{
+// import math
+// }}}
+
+= The Problem
+In the 2022 version of the standard, Figure 10f looks like this:
+
+#image("./2022-version.pdf")
+
+However, after we updated the figure's script to calculate the MPE using Python code, it looks like this:
+
+#image("./current-version.pdf")
+
+There are two main differences, both with the 1400 nm line. First, the current version does not have a bend between 0.2 and 0.3 seconds.
+Second, the #qty("1400","nano meter") and #qty("850","nano meter") lines are on top of each other for long times.
+
+In this write up we work through the calculation to see which figure is correct.
+
+= The Analysis
+
+The MPE for #qty("700","nano meter") to #qty("1050","nano meter") is
+#table(
+  columns: (1fr,1fr),
+  [#qty("1e-13","second") to #qty("1e-11","second")],
+  [$1.0 C_E times 10^(-7)$ #unit("joule per centi meter squared")],
+
+  [#qty("1e-11","second") to #qty("5e-6","second")],
+  [$2.0 C_A C_E times 10^(-7)$ #unit("joule per centi meter squared")],
+
+  [#qty("5e-6","second") to $T_2$],
+  [$1.8 C_A C_E t^(0.75) times 10^(-3)$ #unit("joule per centi meter squared")],
+
+  [$T_2$  to #qty("30000","second")],
+  [$1.8 C_A C_E T_2^(-0.25) times 10^(-3)$ #unit("watt per centi meter squared")],
+)
+
+For #qty("1200","nano meter") to #qty("1400","nano meter"), there are dual limits. For the retina the MPE is
+#table(
+  columns: (1fr,1fr),
+  [#qty("1e-13","second") to #qty("1e-11","second")],
+  [$1.0 C_C C_E times 10^(-7)$ #unit("joule per centi meter squared")],
+
+  [#qty("1e-11","second") to #qty("13e-6","second")],
+  [$2.0 C_C C_E times 10^(-6)$ #unit("joule per centi meter squared")],
+
+  [#qty("13e-6","second") to $T_2$],
+  [$9.0 C_C C_E t^(0.75) times 10^(-3)$ #unit("joule per centi meter squared")],
+
+  [$T_2$  to #qty("30000","second")],
+  [$9.0 C_C C_E T_2^(-0.25) times 10^(-3)$ #unit("watt per centi meter squared")],
+)
+
+For the cornea, the MPE is
+#table(
+  columns: (1fr,1fr),
+  [#qty("1e-11","second") to #qty("1e-3","second")],
+  [$0.3 K_lambda$ #unit("joule per centi meter squared")],
+
+  [#qty("1e-3","second") to #qty("4","second")],
+  [$0.3 K_lambda + 0.56 t^(0.25) - 0.1$ #unit("joule per centi meter squared")],
+
+  [#qty("4","second") to #qty("10","second")],
+  [$0.3 K_lambda + 0.7$ #unit("joule per centi meter squared")],
+
+  [#qty("10","second") to #qty("30000","second")],
+  [$0.03 K_lambda + 0.07$ #unit("watt per centi meter squared")],
+
+)
+
+
+Let's check the long exposure MPEs first. For #qty("850","nano meter"), $"MPE":E = 1.8 C_A C_E T_2^(-0.25) times 10^(-3) unit("watt per centi meter squared")$.
+The $C_A$ correction factor is $10^(0.002(lambda - 700))$ for #qty("850","nano meter"). The  $C_E$ correction factor depends on the source size. The figure caption
+says that this is the MPE for source sizes greater than or equal to #qty("100","milli radian"), so the correction factor is $alpha^2/(alpha_"min" alpha_"max")$ with $alpha_"min" = qty("1.5","milli radian")$
+and $alpha_"max" = qty("100","milli radian")$ for exposures longer than #qty("0.25","second"). The $T_2$ parameter is #qty("100","second") sources larger than #qty("100","milli radian")
+
+For $alpha = #qty("100", "milli radian")$ then
+
+// {{{
+// alpha = 100
+// alpha_min = 1.5
+// alpha_max = 100
+//
+// C_E = alpha**2 / alpha_min / alpha_max
+// }}}
+$C_E = 100^2 / (1.5 times 100) = {{C_E}}$
+
+// {{{
+// l = 850
+// C_A_exp = 0.002*(l-700)
+// C_A = 10**C_A_exp
+// }}}
+$C_A = 10^( {{C_A_exp}} ) = {{C_A}}$
+
+// {{{
+// l = 850
+// T_2 = 100
+// T_2_term = T_2**-0.25
+// }}}
+$T_2 = {{T_2}}^(-0.25) = {{T_2_term}}$
+
+// {{{
+// MPE = 1.8 * C_A * C_E * T_2_term * 1e-3
+// }}}
+and the MPE is
+
+$"MPE":E = {{MPE}} unit("watt per centi meter squared")$
+
+// {{{
+// Omega = math.pi * (alpha/1000)**2 / 4
+// MPEL = MPE/Omega
+// }}}
+To convert this to radiance we divide by the irradiance by the solid angle of the source $Omega = pi alpha^2 /4 = {{Omega}} unit("steradian")$, so
+$"MPE":L = {{MPE}}/{{Omega}} = {{MPEL}} unit("watt per centi meter per steradian")$. This looks to be where the #qty("850","nano meter") line is.
+
+// {{{
+// l = 1400
+// C_C = 8 + 10**(0.04 * (l - 1250))
+// MPEE = 9.0 * C_C * C_E * T_2_term * 1e-3
+// MPEL = MPEE/Omega
+// }}}
+For #qty("1400", "nano meter") we would actually use a different table, but we can pretend that it is in the same table.
+The $C_C$ correction factor is
+
+$C_C = 8 + 10^(0.04 (lambda - 1250)) = {{C_C}}$ (Note that this will change with the next version).
+
+The retina MPE is
+
+$"MPE":E = {{MPEE}} unit("watt per centi meter squared")$
+
+which, expressed as a radiance is.
+
+$"MPE":L = {{MPEL}} unit("watt per centi meter squared per steradian")$
+
+This is much larger than the #qty("850","nano meter") line, but we still need to compute the corneal MPE.
+
+// {{{
+// K_lambda_exp = 0.01*(1400-l)
+// K_lambda = 10**K_lambda_exp
+// }}}
+$K_lambda = 10^(0.01(1400-lambda)) = 10^{{K_lambda_exp}} = {{K_lambda}}$
+
+So the MPE is
+
+// {{{
+// MPEE = 0.03*K_lambda + 0.07
+// MPEL = MPEE/Omega
+// }}}
+$"MPE":E = {{MPEE}}$
+
+and
+
+$"MPE":L = {{MPEL}}$
+
+which definitely looks more like the 2022 version. There must be a bug in the code...
+
+...It turns out that the script generating the data for the figure was using an apparent size of #qty("110","milli radian").
+If we change the source size to #qty("100", "milli radian") we get the following figure
+
+#image("current-version-2.pdf")
+
+This makes the #qty("1400","nano meter") line match (except for the bend on the left), but the MPEs for long exposure times are higher. If we
+change the source size to #qty("200","milli radian") we get this figure
+
+#image("current-version-3.pdf")
+
+There the #qty("1315","nano meter") and #qty("1400", "nano meter") lines have both been shifted down.
+
+It is likely that this has to do with the application of a limiting cone angle that was necessary in previous versions of the standard
+but are no longer needed since the introduction of $C_g$. To convert the MPE to radiance, we divide by the solid angle of the source.
+
+It turns out that this has to do with the cornea dual limits. In the 2007 version of the standard, there were no cornea limits in the
+NIR, so this figure just showed retinal limits. The NIR limits were all still given in terms of radiant exposure/irradiance (the large source photochemical limits in the visible
+were given in terms of integrated radiance/radiance for the short wavelengths). To convert from radiant exposure/irradiance to integrated radiance/radiance, we
+divide by the solid angle of the source
+
+$
+"MPE":L = "MPE":E / Omega = 4"MPE":E / (pi alpha^2)
+$
+
+For extended source, the retinal MPE's all contain the $C_E$ correction factor, which, for sources larger than #qty("100","milliradian") is $C_E = alpha^2 / (1.5 times 100)$. So MPE as
+an integrated radiance/radiance will be
+
+$
+"MPE":L = C_E A(t)/ Omega = alpha^2/(1.5 times 100) times A(t) times  4/ (pi alpha^2) = (4 A(t))/(pi times 1.5 times 100)
+$
+
+where $A(t)$ is some function of time that depends on the wavelength. This shows that the MPE, expressed as integrated radiance/radiance, does not depend on the source size for large sources.
+which is the point of expressing them that way.
+
+
+= The Solution
+
+The value is questionable. The original version was basically showing that the MPEs became a constant integrated radiance/radiance with source size after a certain point ($alpha_"max"$).
+There are three different options for modifying the figure to make it "correct".
+
++ Remove the $qty("1200","nano meter")$ to $qty("1400", "nano meter")$ wavelengths.
++ Only display the retinal MPEs. The figure caption would need to be updated to indicate this.
++ Pick a source size and change the figure caption  from "$> qty("100","milli radian")$" to indicate the source size used.
++ Use $gamma$ to convert to integrated radiance/radiant exposure.
+
+Based on the original intent, option seems to make the most sense. With option 2 we would be displaying limits that don't actually apply for the longer wavelengths because
+the cornea limits are lower for large sources. With option 3 we lose the value of saying "all sources larger than this are the same".
+Option 4 would make since in that is similar to using the limiting aperture to the MPE as a power or energy, but it must be interpreted "the MPE averaged over a limiting cone angle of...".
+Similar to how the MPE expressed as a radiant exposure/irradiance is interpreted as "the MPE averaged over a limiting aperture of...". If we do this though, a user computing
+the MPE would have to know that for $alpha > gamma$ you use $gamma$ to compute $C_E$, not $alpha$, which may be confusing since the radiant exposure/irradiance is allowed to increase
+with source size.
+
+
