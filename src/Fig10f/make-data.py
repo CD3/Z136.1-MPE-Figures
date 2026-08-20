@@ -91,19 +91,3 @@ with pathlib.Path("data.txt").open("w") as fd:
         t = D(t)
         val = MPE_NIR_ES(l, t, a) / t / Omega  # convert to radiance
         fd.write(f"{t:.1e} {val:.3e}\n")
-
-    fd.write("\n")
-    l = D("1315")
-    fd.write(f"# 1315 nm\n")
-    for t in durations:
-        t = D(t)
-        val = MPE_NIR_ES(l, t, a) / t / Omega  # convert to radiance
-        fd.write(f"{t:.1e} {val:.3e}\n")
-
-    fd.write("\n")
-    l = D("1399.9999")
-    fd.write(f"# 1400 nm\n")
-    for t in durations:
-        t = D(t)
-        val = MPE_NIR_ES(l, t, a) / t / Omega  # convert to radiance
-        fd.write(f"{t:.1e} {val:.3e}\n")
