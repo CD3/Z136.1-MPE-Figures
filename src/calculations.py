@@ -75,6 +75,15 @@ def C_C(l: D) -> D:
     return D("8.0") + 10 ** (D("0.04") * (l - D("1250")))
 
 
+def C_D(l: D, t) -> D:
+    if l < D("1300"):
+        return D("1")
+    if l >= D("1400"):
+        return D("1")
+
+    return 10 ** ((D("2.3e9") * t - D("0.023")) * (l - D("1300.0")))
+
+
 def C_E(a: D, t: D) -> D:
     amax = alpha_max(t)
     if a < alpha_min:

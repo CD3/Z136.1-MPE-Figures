@@ -40,3 +40,15 @@ with pathlib.Path("data.txt").open("w") as fd:
         "1400.0",
     ]:
         fd.write(f"{l} {round(C_C(D(l)), 3)}\n")
+
+    t1 = "1e-13"
+    t2 = "1e-12"
+    t3 = "5e-12"
+    t4 = "1e-11"
+    fd.write("\n\n# Cd for {t1} s {t2} s {t3} s {t3} s\n")
+    for l in ["1300", "1399.9"]:
+        CD1 = C_D(D(l), D(t1))
+        CD2 = C_D(D(l), D(t2))
+        CD3 = C_D(D(l), D(t3))
+        CD4 = C_D(D(l), D(t4))
+        fd.write(f"{l} {CD1} {CD2} {CD3} {CD4}\n")

@@ -1,3 +1,3 @@
-SIZE="4in,8in"
+SIZE="6in,6in"
 FONT="Helvetica"
 FONTSIZE="10"
