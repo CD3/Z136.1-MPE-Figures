@@ -25,7 +25,7 @@ with pathlib.Path("data-1.txt").open("w") as fd:
             t = D(t)
             val = MPE_FIR(l, t)
             fd.write(f"{t:.1e} {val:.2e}\n")
-        fd.write("\n")
+        fd.write("\n\n")
 
 
 with pathlib.Path("data-2.txt").open("w") as fd:

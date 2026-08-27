@@ -8,11 +8,13 @@ set xrange [1.0e-13:1.0e+5]
 set yrange [1.0e-5:1.0e+4]
 set logscale xy
 
-set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
-set style line 2 linetype 2 linewidth 2 linecolor rgb "black" dashtype 4
-set style line 3 linetype 1 linewidth 2 linecolor rgb "dark-gray"
-set style line 4 linetype 1 linewidth 1 linecolor rgb "dark-gray"
-set style line 5 linetype 1 linewidth 3 linecolor rgb "black"
+set style line 1 linetype 1 linewidth 2 linecolor rgb "#000000"
+set style line 2 linetype 1 linewidth 2 linecolor rgb "#909090"
+set style line 3 linetype 1 linewidth 2 linecolor rgb "#909090"
+set style line 4 linetype 1 linewidth 2 linecolor rgb "#000000"
+set style line 5 linetype 2 linewidth 2 linecolor rgb "#000000" dashtype 4
+set style line 6 linetype 2 linewidth 2 linecolor rgb "#f0f0f0"
+set style line 7 linetype 2 linewidth 2 linecolor rgb "#f0f0f0"
 
 set mytics 5
 set mxtics 5
@@ -20,7 +22,7 @@ set xtics 1.0e-13, 10.0
 set ytics 1.0e-5, 10.0
 set grid xtics ytics
 set grid mxtics mytics
-set grid linestyle 3, linestyle 4
+set grid linestyle 6, linestyle 7
 
 set xlabel 'Exposure Duration (s)'
 set ylabel 'Radiant Exposure (J/cm^2)'
@@ -38,11 +40,11 @@ set label 7 '1400 - 1500 nm' at first 2e-9, first 0.5
 
 #plot 'Fig6_IR_MPE_Data.dat' notitle with lines linestyle 1, \
 #     'Fig6_UV_MPE_Data.dat' notitle with lines linestyle 2
-plot 'data-1.txt' index 0 notitle with lines linestyle 5, \
-     '' index 1 notitle with lines linestyle 1, \
-     '' index 2 notitle with lines linestyle 1, \
-     '' index 3 notitle with lines linestyle 1, \
-     'data-2.txt' notitle with lines linestyle 2
+plot 'data-1.txt' index 0 notitle with lines linestyle 1, \
+     '' index 1 notitle with lines linestyle 2, \
+     '' index 2 notitle with lines linestyle 3, \
+     '' index 3 notitle with lines linestyle 4, \
+     'data-2.txt' notitle with lines linestyle 5
 
 unset label 1
 unset label 2
