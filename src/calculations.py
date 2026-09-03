@@ -72,7 +72,7 @@ def C_C(l: D) -> D:
     if l <= D("1200"):
         return 10 ** (D("0.018") * (l - D("1150.0")))
 
-    return D("8.0") + 10 ** (D("0.04") * (l - D("1250")))
+    return D("8.0") + 10 ** (D("0.04") * (l - D("1275")))
 
 
 def C_D(l: D, t) -> D:
@@ -247,7 +247,7 @@ def MPE_NIR_PS_RETINA(l: D, t: D) -> D:
 
     if l < D("1200") or l < D("1400"):  # retinal MPEs are same from 1050 - 1400
         if t < D("1e-11"):
-            return C_C(l) * D("1e-7")
+            return C_C(l) * C_D(l, t) * D("1e-7")
         if t < D("13e-6"):
             return D("2.0") * C_C(l) * D("1e-6")
         if t < D("10"):

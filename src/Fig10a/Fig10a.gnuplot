@@ -33,10 +33,10 @@ set label 3 '475 nm' at first 1000.0, first 4.5e-4 center front
 set label 4 '400 - 450 nm' at first 1000.0, first 1.4e-4 center front
 set label 5 '850 nm' at first 1000.0, first 2.8e-3 center front
 set label 6 '1064 nm' at first 1000.0, first 7.6e-3 center front
-set label 7 '1315 nm' at first 20.0, first 0.4 center front
-set label 8 '1400 nm' at first 2.0, first 0.2 center front
+set label 7 '1315 nm' at first 1000, first 0.4 center front
+set label 8 '1400 nm' at first 1000, first 0.15 center front
 
-plot 'data.txt' notitle with lines linestyle 1
+plot 'data.txt' every :::0::7 notitle with lines linestyle 1
 
 unset label 1
 unset label 2

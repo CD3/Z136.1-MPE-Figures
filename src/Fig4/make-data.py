@@ -52,6 +52,7 @@ with pathlib.Path("data.txt").open("w") as fd:
             t = round_to_sigfigs(D(j * 10.0**i), 2)
             durations.append(t)
     for t in durations:
+        t = D(t)
         val = MPE_NIR_PS(l, t)
         fd.write(f"{t:.1e} {val:.3e}\n")
 
@@ -68,6 +69,7 @@ with pathlib.Path("data.txt").open("w") as fd:
             t = round_to_sigfigs(D(j * 10.0**i), 2)
             durations.append(t)
     for t in durations:
+        t = D(t)
         val = MPE_NIR_PS(l, t)
         fd.write(f"{t:.1e} {val:.3e}\n")
 
@@ -78,7 +80,11 @@ with pathlib.Path("data.txt").open("w") as fd:
     l = D("1399.99")
     fd.write(f"# MPE for {l:.0f} nm\n")
     # set up pulse durations for MPE calculations
-    durations = ["1.0e-9", "1.0e-3", "4.0", "1.0e1"]
+    durations = [1.0e-13, 9.9999e-12]
+    for i in range(-11, 1):
+        for j in range(1, 10):
+            t = round_to_sigfigs(D(j * 10.0**i), 2)
+            durations.append(t)
     for t in durations:
         t = D(t)
         val = MPE_NIR_PS(l, t)

@@ -28,15 +28,15 @@ set ylabel 'Irradiance (W/cm^2)'
 set format x '10^{%L}'
 set format y '10^{%L}'
 
-set label 1 '400 - 450 nm' at first 3000.0, first 1.6e-4 center front
-set label 2 '475 nm' at first 3000.0, first 5.2e-4 center front
-set label 3 '500 nm' at first 3000.0, first 1.6e-3 center front
+set label 1 '400 - 450 nm' at first 3000.0, first 1.4e-4 center front
+set label 2 '475 nm' at first 3000.0, first 4.4e-4 center front
+set label 3 '500 nm' at first 3000.0, first 1.4e-3 center front
 set label 4 '532 nm' at first 3000.0, first 7.0e-3 center front
-set label 5 '400 - 700 nm Thermal' at first 3000.0, first 2.2e-2 center front
-set label 6 '850 nm' at first 3000.0, first 5.0e-2 center front
+set label 5 '400 - 700 nm Thermal' at first 3000.0, first 2.1e-2 center front
+set label 6 '850 nm' at first 3000.0, first 4.4e-2 center front
 set label 7 '1064 nm' at first 0.6, first 0.3 center front
-set label 8 '1315 nm' at first 20.0, first 0.4 center front
-set label 9 '1400 nm' at first 0.23, first 1.0 center front
+set label 8 '1315 nm' at first 3000.0, first 0.4 center front
+set label 9 '1400 nm' at first 3000, first 1.4e-1 center front
      
 plot 'data.txt' notitle with lines linestyle 1, \
 

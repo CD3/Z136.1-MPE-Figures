@@ -26,9 +26,9 @@ set ylabel 'Integrated Radiance (J/cm^2/sr)'
 set format x '10^{%L}'
 set format y '10^{%L}'
 
-set label 1 '400 - 700 nm' at first 1.0e-8, first 6.0e-2 center front
-set label 2 '1064 nm' at first 1.0e-8, first 0.6 center front
-set label 3 '1315 nm' at first 1.0e-8, first 230.0 center front
+set label 1 '400 - 700 nm' at first 1.0e-8, first 4.5e-2 center front
+set label 2 '1064 nm' at first 1.0e-8, first 0.45 center front
+set label 3 '1315 nm' at first 1.0e-8, first 20.0 center front
 
 plot 'data.txt' notitle with lines linestyle 1
 
