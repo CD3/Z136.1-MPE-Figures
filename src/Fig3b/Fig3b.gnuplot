@@ -11,12 +11,14 @@ set logscale xy
 set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
 set style line 2 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 3 linetype 1 linewidth 1 linecolor rgb "dark-gray"
+set style line 10 linetype 1 linewidth 1 linecolor rgb "#d0d0d0"
+set style line 11 linetype 1 linewidth 1 linecolor rgb "#f0f0f0"
 
 set mxtics 10 
 set mytics 10
 set grid xtics ytics
 set grid mxtics mytics
-set grid linestyle 2, linestyle 3
+set grid linestyle 10,linestyle 11
 
 set xlabel 'Limiting Cone Angle, {/Symbol g} (mrad)'
 set ylabel 'C_g'

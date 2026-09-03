@@ -12,6 +12,8 @@ unset logscale x
 set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
 set style line 2 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 3 linetype 1 linewidth 1 linecolor rgb "dark-gray"
+set style line 10 linetype 1 linewidth 1 linecolor rgb "#d0d0d0"
+set style line 11 linetype 1 linewidth 1 linecolor rgb "#f0f0f0"
 
 set xtics 200,50,400
 set ytics 1.0e-3,10
@@ -19,7 +21,7 @@ set mytics 10
 set mxtics 5
 set grid xtics ytics
 set grid mxtics mytics
-set grid linestyle 2, linestyle 3
+set grid linestyle 10,linestyle 11
 
 #set xlabel '{/=20 Wavelength (nm)}'
 #set ylabel '{/=20 Radiant Exposure (J/cm^2)}'

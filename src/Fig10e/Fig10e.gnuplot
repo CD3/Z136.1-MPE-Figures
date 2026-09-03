@@ -13,6 +13,8 @@ set style line 2 linetype 2 linewidth 2 linecolor rgb "black"
 set style line 3 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 4 linetype 1 linewidth 1 linecolor rgb "dark-gray"
 set style line 5 linetype 5 linewidth 2 linecolor rgb "black"
+set style line 10 linetype 1 linewidth 1 linecolor rgb "#d0d0d0"
+set style line 11 linetype 1 linewidth 1 linecolor rgb "#f0f0f0"
 
 set mytics 5
 set mxtics 5
@@ -20,7 +22,7 @@ set xtics 0.1, 10.0
 set ytics 1.0e-5, 10.0
 set grid xtics ytics
 set grid mxtics mytics
-set grid linestyle 3, linestyle 4
+set grid linestyle 10,linestyle 11
 
 set xlabel 'Exposure Duration (s)'
 set ylabel 'Irradiance (W/cm^2)'

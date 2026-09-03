@@ -11,13 +11,15 @@ set logscale y
 set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
 set style line 2 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 3 linetype 1 linewidth 1 linecolor rgb "dark-gray"
+set style line 10 linetype 1 linewidth 1 linecolor rgb "#d0d0d0"
+set style line 11 linetype 1 linewidth 1 linecolor rgb "#f0f0f0"
 
 set mxtics 5
 set mytics 5
 set xtics 1200, 50
 set ytics 0.1, 10.0
 set grid xtics ytics mxtics mytics
-set grid linestyle 2, linestyle 3
+set grid linestyle 10,linestyle 11
 
 set xlabel 'Wavelength (nm)'
 set ylabel 'K_{/Symbol l}'

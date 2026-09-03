@@ -7,6 +7,8 @@
 set style line 1 linetype 1 linewidth 2 linecolor rgb "black"
 set style line 2 linetype 1 linewidth 2 linecolor rgb "dark-gray"
 set style line 3 linetype 1 linewidth 1 linecolor rgb "dark-gray"
+set style line 10 linetype 1 linewidth 1 linecolor rgb "#d0d0d0"
+set style line 11 linetype 1 linewidth 1 linecolor rgb "#f0f0f0"
 
 set multiplot layout 2,2
 
@@ -26,7 +28,7 @@ set xtics 400, 100
 set ytics ( 1 0, 10 0, 2 1, 3 1, 4 1, 5 1, 6 1, 7 1, 8 1, 9 1)
 set grid xtics ytics
 set grid mxtics mytics
-set grid linestyle 2, linestyle 3
+set grid linestyle 10,linestyle 11
 
 set xlabel 'Wavelength (nm)'
 set ylabel '{/=12 C_A}'

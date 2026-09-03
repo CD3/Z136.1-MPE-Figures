@@ -15,6 +15,8 @@ set style line 4 linetype 1 linewidth 2 linecolor rgb "#000000"
 set style line 5 linetype 2 linewidth 2 linecolor rgb "#000000" dashtype 4
 set style line 6 linetype 2 linewidth 2 linecolor rgb "#f0f0f0"
 set style line 7 linetype 2 linewidth 2 linecolor rgb "#f0f0f0"
+set style line 10 linetype 1 linewidth 1 linecolor rgb "#d0d0d0"
+set style line 11 linetype 1 linewidth 1 linecolor rgb "#f0f0f0"
 
 set mytics 5
 set mxtics 5
@@ -22,7 +24,7 @@ set xtics 1.0e-13, 10.0
 set ytics 1.0e-5, 10.0
 set grid xtics ytics
 set grid mxtics mytics
-set grid linestyle 6, linestyle 7
+set grid linestyle 10,linestyle 11
 
 set xlabel 'Exposure Duration (s)'
 set ylabel 'Radiant Exposure (J/cm^2)'
