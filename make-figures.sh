@@ -141,9 +141,65 @@ cat > "Figures.md" << EOF
 title: Z136.1 MPE Figures
 ---
 
-<!-- You can convert this file to a Word document using Pandoc -->
+<!-- You can convert this file to a Word document or PDF using Pandoc -->
+<!-- Note that the for PDF images, Pandoc will insert them as PDF which Word does _not_ support natively. -->
+
+#
+![Figure 3a. Limiting Cone Angle $\gamma$, Photochemical MPEs](Fig3a.${EXT})
+
+#
+![Figure 3b. Correction Factor Cg versus Limiting Cone Angle gamma, Used for Photochemical MPEs for T <= 100 s](Fig3b.${EXT})
+
+#
+![Figure 4. Point-Source MPEs for Visible and Near-Infrared Pulsed Sources (Wavelengths From 400 nm to 1400 nm)](Fig4.${EXT})
+
+#
+![Figure 5. MPE for Ultraviolet Radiation for Exposure Durations from 1e-9 s to 3e4 s for Ocular Exposure and 1e-9 s to 1e3 s for Skin Exposure](Fig5.${EXT})
+
+#
+![Figure 6. MPE for Ultraviolet, Wavelengths From 315 nm to 400 nm, and Infrared Wavelengths From 1400 nm to 1000 um, Laser Radiation for Single Pulses or Continuous Ocular or Skin Exposure, Small or Extended Sources, for 1e-9 s to 3e4 s](Fig6.${EXT})
+
+#
+![Figure 7. MPE for Ocular Exposure to Visible Laser Radiation, Wavelengths From 400 nm to 700 nm, for Single Pulses or Continuous Exposure, Small or Extended Sources](Fig7.${EXT})
+
+#
+![Figure 8. Correction Factors CA, CB, and CC Used to Determine the MPE for Ocular Exposure to Laser Radiation](Fig8.${EXT})
+
+#
+![Figure 9. Correction Times T1 and T2](Fig9.${EXT})
+
+#
+![Figure 10a. Ocular Point-Source MPE, alpha <= 1.5 mrad, for Visible and Near-Infrared Laser Radiation, Wavelengths From 400 nm to 1400 nm](Fig10a.${EXT})
+
+#
+![Figure 10b. Ocular Extended-Source MPE, alpha = 3 mrad, for Visible and Near-Infrared Laser Radiation, Wavelengths From 400 nm to 1400 nm](Fig10b.${EXT})
+
+#
+![Figure 10c. Ocular Extended-Source MPE, alpha = 11 mrad, for Visible and Near-Infrared Laser Radiation, Wavelengths From 400 nm to 1400 nm](Fig10c.${EXT})
+
+#
+![Figure 10d. Ocular Extended-Source MPE, alpha = 25 mrad, for Visible and Near-Infrared Laser Radiation, Wavelengths From 400 nm to 1400 nm](Fig10d.${EXT})
+
+#
+![Figure 10e. Ocular Extended-Source MPE, alpha = 50 mrad, for Visible and Near-Infrared Laser Radiation, Wavelengths From 400 nm to 1400 nm](Fig10e.${EXT})
+
+#
+![Figure 10f. Ocular Extended-Source MPE, alpha = 100 mrad, for Visible and Near-Infrared Laser Radiation, Wavelengths From 400 nm to 1400 nm](Fig10f.${EXT})
+
+#
+![Figure 10f. Ocular Extended-Source MPE, alpha = 100 mrad, for Visible and Near-Infrared Laser Radiation, Wavelengths From 400 nm to 1400 nm, for Pulsed or Continuous Exposures Less than 1 s](Fig10g.${EXT})
+
+#
+![Figure 11. MPE Reduction Factor, CP, for repetitive-Pulsed Lasers and Multiple Exposures From Scanning Lasers](Fig11.${EXT})
+
+#
+![Figure 12. Time dependence of alpha max](Fig12.${EXT})
+
+#
+![Figure 13. Correction factor, K lambda, Used to Determine the Corneal MPE for Wavelengths From 1200 nm to 1400 nm](Fig13.${EXT})
+
 EOF
-  ls *.${EXT} | sort -V | sed "s/^/![](/;s/$/)\n/" >> Figures.md
+
 
   cd "${HERE}"
 done
@@ -155,5 +211,6 @@ printf "You can generate a Word document with all figures inserted as images usi
 printf "For example:\n"
 printf "\n"
 printf "$ cd build/pdf\n$ pandoc Figures.md -o Figures.docx\n"
+printf "$ cd build/pdf\n$ pandoc Figures.md -o Figures.pdf\n"
 printf "\n"
 
